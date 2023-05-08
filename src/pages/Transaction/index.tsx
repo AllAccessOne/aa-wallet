@@ -1,11 +1,6 @@
-import React from "react";
-import { Page } from "../../styles/global.css";
+import { Page } from "../../styles";
 
 const Transaction = () => {
-    return (
-        <Page>
-            Transaction
-        </Page>
-    );
-}
+  return <Page>Transaction</Page>;
+};
 export default Transaction;

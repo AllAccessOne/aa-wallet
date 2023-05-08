@@ -1,3 +1,3 @@
-import { listMenu } from "./menu";
+import { listMenu, routes } from "./menu";
 
-export { listMenu }
+export { listMenu, routes };

@@ -1,11 +1,6 @@
-import React from "react";
-import { Page } from "../../styles/global.css";
+import { Page } from "../../styles";
 
 const History = () => {
-    return (
-        <Page>
-            History
-        </Page>
-    );
-}
+  return <Page>History</Page>;
+};
 export default History;

@@ -1,3 +1,4 @@
 import { lightTheme, darkTheme } from "./theme";
 import { GlobalStyles } from "./global.css";
-export { lightTheme, darkTheme, GlobalStyles }
+import { Page, TitlePage } from "./page.css";
+export { lightTheme, darkTheme, GlobalStyles, Page, TitlePage };
