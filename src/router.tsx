@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import { Overview, Login, History, Profile, Error, Transaction } from "./pages";
+import { Overview, Login, History, Profile, Error, Transaction, MultipleFactors } from "./pages";
 import { ProtectProp } from "./types/protectProp.type";
 import { LayoutApp } from "./components";
 import React from "react";
@@ -14,26 +14,15 @@ const RouterApp = () => {
     }
     return children;
   };
-  const RedirectOverview = ({ user, children }: ProtectProp): JSX.Element => {
-    if (user) {
-      return <Navigate to='/overview' replace />;
-    }
-    return children;
-  };
+
   // const user = useSelector((state: RootState) => state.login.value)
   const user = true;
   return (
     <Router>
       <LayoutApp>
         <Routes>
-          <Route
-            path='/'
-            element={
-              <RedirectOverview user={user}>
-                <Login />
-              </RedirectOverview>
-            }
-          />
+          <Route path='/' element={<Login />} />
+          <Route path='/multiple-factors' element={<MultipleFactors />} />
           <Route
             path='/overview'
             element={

@@ -7,7 +7,7 @@ import { Grid } from "@mui/material";
 
 const FooterApp = styled(Grid)`
   height: 56px;
-
+  z-index: 99;
   ${breakpoint("xs")`
         display: none;
     `}
@@ -31,6 +31,7 @@ const FooterApp = styled(Grid)`
   bottom: 0;
   right: 0;
   box-sizing: border-box;
+  background-color: white;
 `;
 const FooterContainer = styled.div`
   display: inline-block;

@@ -1,9 +1,8 @@
-import { ListItemHeader } from "./slider.css";
+import { ListItemHeader, ListCustom } from "./slider.css";
 // import { Menu, Item, MenuLink } from './slider.css'
 import { listMenu } from "../../configs/data";
 import List from "@mui/material/List";
 import styled from "styled-components";
-import { NavLink } from "react-router-dom";
 import { createBreakpoint } from "styled-components-breakpoint";
 import base from "../../styles/theme/base";
 const breakpoint = createBreakpoint(base.breakpoints);
@@ -21,17 +20,20 @@ const Sidebar: React.FC<Props> = (props: Props) => {
           <img src={LogoIcon} />
           Allaccess.one
         </ListItemHeader>
-        {listMenu.map(e => (
-          <ListItem name={e.name} subMenu={e.subMenu} icon={e.icon} />
-        ))}
+        <ListCustom>
+          {listMenu.map(e => (
+            <ListItem name={e.name} subMenu={e.subMenu} icon={e.icon} />
+          ))}
+        </ListCustom>
       </List>
     </SidebarApp>
   );
 };
 
 export default Sidebar;
+
 const SidebarApp = styled.div<Props>`
-  height: 100vh;
+  min-height: 100%;
   background-color: ${props => props.theme.colors.neutrals.gray100};
   font-size: ${props => props.theme.fontSizes.md} + "px";
   display: ${props => {
@@ -46,6 +48,7 @@ const SidebarApp = styled.div<Props>`
     width: 70vw;
     right: 0;
     border: none;
+    height: 100vh;
     `};
   ${breakpoint("sm")<Props>`
       position: static;

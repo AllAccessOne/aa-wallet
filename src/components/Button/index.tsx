@@ -18,7 +18,7 @@ type Props = {
       title?: string | undefined;
     }
   >;
-  backgroundColor?: string;
+  boder?: string;
   width?: string;
   height?: string;
   borderRadius?: string;
@@ -34,11 +34,17 @@ type Props = {
   gap?: string;
   fontSize?: string;
   styleButton?: "primary" | "default" | "inactive" | "style";
+  float?: string;
 };
 
 const ButtonComponent = styled(Button)<ButtonProps & Props>`
-  width: ${props => props.width};
-  height: ${props => props.height};
+  margin-left: ${props => props.mLeft} !important;
+  margin-right: ${props => props.mRight} !important;
+  margin-top: ${props => props.mTop} !important;
+  margin-bottom: ${props => props.mBottom} !important;
+  float: ${props => props.float} !important;
+  width: ${props => props.width} !important;
+  height: ${props => props.height} !important;
   border-radius: ${props => props.theme.radii.sm + "px"} !important;
   background-color: ${props => {
     if (props.styleButton === "primary") {
@@ -64,6 +70,8 @@ const ButtonComponent = styled(Button)<ButtonProps & Props>`
       return `solid 1px ${props.theme.colors.brands.blue500}`;
     }
   }} !important;
+  border: ${props => props.boder} !important;
+
   color: ${props => {
     if (props.styleButton === "primary") {
       return "#FFF";

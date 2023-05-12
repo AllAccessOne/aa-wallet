@@ -2,6 +2,7 @@ import styled from "styled-components";
 import base from "../../styles/theme/base";
 import { createBreakpoint } from "styled-components-breakpoint";
 import { TextField, TextFieldProps } from "@mui/material";
+import { Input, InputProps } from "@mui/material";
 
 const breakpoint = createBreakpoint(base.breakpoints);
 
@@ -12,7 +13,11 @@ type Props = {
       title?: string | undefined;
     }
   >;
-  backgroundColor?: string;
+  iconRight?: React.FunctionComponent<
+    React.SVGProps<SVGSVGElement> & {
+      title?: string | undefined;
+    }
+  >;
   width?: string;
   height?: string;
   borderRadius?: string;
@@ -22,14 +27,9 @@ type Props = {
   styleTextField?: "default" | "typing" | "disable" | "successfull" | "error" | "typed";
 };
 const TextFieldComponent = styled(TextField)<TextFieldProps & Props>`
-  height: ${props => props.height} !important;
-  gap: ${props => props.gap} !important;
-  line-height: ${props => props.height} !important;
-  font-size: ${props => props.fontSize} !important;
-  width: ${props => props.width};
   background-color: ${props => {
     if (props.styleTextField === "default") {
-      return props.theme.colors.brands.blue500;
+      return props.theme.colors.white;
     } else if (props.styleTextField === "typing") {
       return props.theme.colors.white;
     } else if (props.styleTextField === "disable") {
@@ -42,19 +42,33 @@ const TextFieldComponent = styled(TextField)<TextFieldProps & Props>`
       return "#EDF4FE";
     }
   }} !important;
-  font-family: "Inter", sans-serif !important;
-  font-style: normal !important;
-  height: 40px !important;
+
+  .css-8j6b76-MuiInputBase-root-MuiOutlinedInput-root {
+    border-radius: 8px !important;
+    height: ${props => props.height} !important;
+    gap: ${props => props.gap} !important;
+    line-height: ${props => props.height} !important;
+
+    font-size: ${props => props.fontSize} !important;
+
+    font-family: "Inter", sans-serif !important;
+
+    font-style: normal !important;
+    border: ${props => {
+      return props.border;
+    }} !important;
+    width: ${props => props.width} !important;
+  }
+  .css-md26zr-MuiInputBase-root-MuiOutlinedInput-root {
+    border-radius: 8px !important;
+  }
+  .css-1ua80n0-MuiInputBase-input-MuiOutlinedInput-input {
+    padding-left: 5px !important;
+  }
+  .css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root {
+    border-radius: 8px !important;
+  }
   border-radius: 8px !important;
-  border: ${props => {
-    return props.border;
-  }} !important;
-  ${breakpoint("xs")`
-        display: none ! important;
-    `}
-  ${breakpoint("md")`
-       display: block ! important;
-    `}
 `;
 
 const TextFieldTemplate: React.FC<TextFieldProps & Props> = (props: TextFieldProps & Props) => {

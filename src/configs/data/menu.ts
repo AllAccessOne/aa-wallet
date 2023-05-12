@@ -12,6 +12,11 @@ export const routes = [
     layout: false,
   },
   {
+    path: "/multiple-factors",
+    breadcrumbName: "",
+    layout: false,
+  },
+  {
     path: "/transaction",
     breadcrumbName: "Transaction",
     layout: true,
@@ -39,7 +44,6 @@ export const listMenu = [
   {
     name: "History",
     icon: ReceiptSearch,
-
     subMenu: [{ name: "History", route: "/history" }],
   },
   {

@@ -5,7 +5,8 @@ import Collapse from "@mui/material/Collapse";
 import { subMenuItem } from "../../types/subMenuItem.type";
 import { ArrowRight, ArrowDown } from "../../assets/icon";
 import { MenuLink, IconArrowMenu, ListItemDiv, NavLinkCustom } from "./slider.css";
-
+import { useLocation } from "react-router-dom";
+import { useEffect } from "react";
 type Props = {
   name: string;
   icon: React.FunctionComponent<React.SVGProps<SVGSVGElement> & { title?: string }>;
@@ -13,11 +14,17 @@ type Props = {
 };
 
 const Slider: React.FC<Props> = (props: Props) => {
+  const location = useLocation();
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
     setOpen(!open);
   };
+  const handleClickTrue = () => {
+    const temp = props.subMenu.find(e => e.route === location.pathname);
+    setOpen(temp ? true : false);
+  };
+  useEffect(handleClickTrue, []);
   return (
     <List component='nav'>
       <ListItemButton component='div' onClick={handleClickOpen}>

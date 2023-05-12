@@ -18,6 +18,7 @@ export const MenuLink = styled(NavLink)`
 export const ListItemHeader = styled.div`
   font-family: "Roboto", sans-serif;
   display: flex;
+  position: fixed;
   align-content: center;
   align-items: center;
   font-style: normal;
@@ -48,4 +49,20 @@ export const NavLinkCustom = styled(List)`
     margin-left: auto;
     margin-right: auto;
   }
+`;
+export const ListCustom = styled.div`
+  position: fixed;
+  margin-top: 100px;
+  ${breakpoint("xs")`
+        width: 70vw;
+    `}
+  ${breakpoint("sm")`
+        max-width: 26%;
+    `}
+   ${breakpoint("md")`
+        max-width: 20%;
+    `}
+  ${breakpoint("lg")`
+        max-width: 16%;
+    `}
 `;
