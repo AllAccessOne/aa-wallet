@@ -5,9 +5,12 @@ import { Devices } from "../../configs/data/test";
 import { Computer } from "../../assets/icon";
 import { TextBlue } from "../Overview/overview.css";
 import CustomTextInput from "../../components/TextField";
+import CustomButton from "../../components/Button";
+import { useState } from "react";
 const breakpoint = createBreakpoint(base.breakpoints);
 
 const MultipleFactors = () => {
+  const [typeButton, setTypeButton] = useState(false);
   return (
     <ContainerMultipleFactors>
       <HeaderText>Verify your login</HeaderText>
@@ -26,7 +29,7 @@ const MultipleFactors = () => {
                 <IpText>IP: {device.ip}</IpText>
               </ContainerText>
             </GroupLeftItemDevice>
-            <NameText>Reference ID: {device.id}</NameText>
+            <IdText>Reference ID: {device.id}</IdText>
           </ConatainerDevice>
         ))}
       </ContainerBackgroundCard>
@@ -34,13 +37,28 @@ const MultipleFactors = () => {
         <TextHeaderCard>Backup Passphrase</TextHeaderCard>
         <SubHeaderText>Make sure you have your 24 words recovery phrase, then click below to begin the recovery process.</SubHeaderText>
         <TextBlue>Passphrase (24 words)</TextBlue>
-        <CustomTextInput fullWidth size='small' styleTextField='default' placeholder='correct horse batterry ...'></CustomTextInput>
+        <CustomTextInput
+          onChange={newValue => setTypeButton(newValue.target.value ? true : false)}
+          fullWidth
+          size='small'
+          styleTextField='default'
+          placeholder='correct horse batterry ...'
+        ></CustomTextInput>
+        <ContainerButton>
+          <CustomButton width='30%' padding='10px' text='Confirm' styleButton={typeButton ? "primary" : "inactive"}></CustomButton>
+        </ContainerButton>
       </ContainerBackgroundCard>
     </ContainerMultipleFactors>
   );
 };
 
 export default MultipleFactors;
+export const ContainerButton = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 40px 0 10px 0;
+`;
 
 export const ContainerMultipleFactors = styled.div`
   text-align: center;
@@ -62,11 +80,21 @@ export const SubHeaderText = styled.div`
 `;
 export const NameText = styled.div`
   ${breakpoint("xs")`
-        font-weight: 400px;
+        font-weight: 400;
         font-size: 13px;
     `}
   ${breakpoint("sm")`
-        font-weight: 400px;
+        font-weight: 600;
+        font-size: 16px;
+    `}
+`;
+export const IdText = styled.div`
+  ${breakpoint("xs")`
+        font-weight: 400;
+        font-size: 13px;
+    `}
+  ${breakpoint("sm")`
+        font-weight: 400;
         font-size: 16px;
     `}
 `;

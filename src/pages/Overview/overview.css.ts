@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { Container } from "@mui/material";
 import base from "../../styles/theme/base";
 import { createBreakpoint } from "styled-components-breakpoint";
 const breakpoint = createBreakpoint(base.breakpoints);
@@ -34,12 +33,12 @@ export const NetworkContainerFixed = styled.div`
 export const TilePageContainer = styled.div`
   ${breakpoint("xs")`
     display: none;
-`}
+  `}
   ${breakpoint("lg")`
     display: block;
     margin: 44px 44px;
   `}
-    position: static;
+  position: static;
   justify-content: center;
   align-items: center;
 `;
@@ -105,6 +104,12 @@ export const OverviewHeaderTopCoin = styled.div`
 export const SearchContainer = styled.div`
   display: flex;
   justify-content: right;
+  ${breakpoint("xs")`
+    width: 200px;
+    `}
+  ${breakpoint("md")`
+    width: 300px;
+    `}
 `;
 export const TextHeaderOverview = styled.div`
   font-weight: ${({ theme }) => theme.fontWeights.semiBold};

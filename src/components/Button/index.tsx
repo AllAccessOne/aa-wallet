@@ -52,7 +52,7 @@ const ButtonComponent = styled(Button)<ButtonProps & Props>`
     } else if (props.styleButton === "default") {
       return props.theme.colors.white;
     } else if (props.styleButton === "inactive") {
-      return "rgba(0, 0, 0, 0.1);";
+      return "#ECECED";
     } else {
       return "#EDF4FE";
     }
@@ -78,7 +78,7 @@ const ButtonComponent = styled(Button)<ButtonProps & Props>`
     } else if (props.styleButton === "default") {
       return props.theme.colors.neutrals.gray700;
     } else if (props.styleButton === "inactive") {
-      return "#000";
+      return props.theme.colors.neutrals.gray600;
     } else {
       return props.theme.colors.brands.blue500;
     }

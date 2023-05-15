@@ -1,23 +1,23 @@
 import { Grid } from "@mui/material";
-import { Page } from "../../styles";
+import { Page, TitlePage } from "../../styles";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import base from "../../styles/theme/base";
 import { createBreakpoint } from "styled-components-breakpoint";
 import Typography from "@mui/material/Typography";
-import React from "react";
 import CustomButton from "../../components/Button";
-import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import CustomInput from "../../components/TextField";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
+import Select from "@mui/material/Select";
 import { NetworkContainer } from "../../components/Network";
-import { myListCoin, historyData } from "../../configs/data/test";
+import { myListCoin } from "../../configs/data/test";
 import { Copy } from "../../assets/icon";
 import QRCode from "react-qr-code";
-import { OverviewHeaderTopCoin, TextHeaderOverview, SubHeaderPage } from "../Overview/overview.css";
-import { TitlePage } from "../../styles";
+import { OverviewHeaderTopCoin, TextHeaderOverview } from "../Overview/overview.css";
+import FormGroup from "@mui/material/FormGroup";
+import React, { useReducer } from "react";
+
 import styled from "styled-components";
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -49,13 +49,22 @@ const Transaction = () => {
   const myFullAddress = "0xea5a9433df5ea7f57206668e71d8577362dfed02";
   const [value, setValue] = React.useState(0);
   const [token, setToken] = React.useState("ETH");
+  const [amount, setAmount] = React.useState("0");
+  const [addressTo, setAddressTo] = React.useState("");
 
-  const handleChange2 = (event: any) => {
-    setToken(event.target.value as string);
-  };
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
+    let data = {
+      token: token,
+      addressTo: addressTo,
+      amount: amount,
+    };
+    console.log(data);
+  };
+
   return (
     <Page>
       <Grid container columns={{ xs: 100, sm: 100, md: 100, lg: 100, xl: 100 }}>
@@ -85,38 +94,81 @@ const Transaction = () => {
           <Grid item xs={100} sm={100} md={100} lg={50} xl={55}>
             <ContainerTabs value={value} index={0}>
               <BackgroundPage>
-                <FormControl fullWidth>
-                  <InputLabelCustom required id='select-token'>
-                    Select coin
-                  </InputLabelCustom>
-                  <SelectCustom labelId='select-token' id='token' value={token} label='Select coin' size='medium' onChange={handleChange2}>
-                    {myListCoin.map(coin => (
-                      <MenuItem value={coin.symbol}>
-                        <SelectCoin>
-                          <img width={"20px"} src={coin.img}></img>
-                          {coin.name}
-                        </SelectCoin>
-                      </MenuItem>
-                    ))}
-                  </SelectCustom>
-                  <CustomInput size='medium' margin='normal' styleTextField='default' label='Transfer to' required></CustomInput>
-                  <CustomInput size='medium' margin='dense' styleTextField='default' label='Amount' required></CustomInput>
-                  <ContainerFlexSpace>
-                    <div>Maxium desposit</div>
-                    <div>0.00001 ETH</div>
-                  </ContainerFlexSpace>
-                  <ContainerFlexSpace>
-                    <div>Network desposit</div>
-                    <div>$12.34</div>
-                  </ContainerFlexSpace>
-                  <ContainerFlexSpace>
-                    <TextHeaderOverview>Total cost</TextHeaderOverview>
-                    <TextHeaderOverview>$12.34</TextHeaderOverview>
-                  </ContainerFlexSpace>
-                  <ContainerRight>
-                    <CustomButton text='Transfer' styleButton='primary' width='150px' height='50px'></CustomButton>
-                  </ContainerRight>
-                </FormControl>
+                <form onSubmit={handleSubmit}>
+                  <FormGroup>
+                    <FormControl fullWidth>
+                      <ContainerTextField>
+                        <label>
+                          Select coin <SpanRed>*</SpanRed>
+                        </label>
+                        <CustomInput
+                          styleTextField='default'
+                          select
+                          id='token'
+                          value={token}
+                          size='small'
+                          onChange={e => {
+                            setToken(e.target.value as string);
+                          }}
+                        >
+                          {myListCoin.map(coin => (
+                            <MenuItem value={coin.symbol}>
+                              <SelectCoin>
+                                <img width={"20px"} src={coin.img}></img>
+                                {coin.name}
+                              </SelectCoin>
+                            </MenuItem>
+                          ))}
+                        </CustomInput>
+                      </ContainerTextField>
+                    </FormControl>
+                    <ContainerTextField>
+                      <label>
+                        Transfer to <SpanRed>*</SpanRed>
+                      </label>
+                      <CustomInput
+                        onChange={e => {
+                          setAddressTo(e.target.value);
+                        }}
+                        placeholder='Enter address'
+                        id='addressTo'
+                        size='small'
+                        styleTextField='default'
+                        required
+                      ></CustomInput>
+                    </ContainerTextField>
+                    <ContainerTextField>
+                      <label>
+                        Amount <SpanRed>*</SpanRed>
+                      </label>
+                      <CustomInput
+                        onChange={e => {
+                          setAmount(e.target.value);
+                        }}
+                        placeholder='Enter amount'
+                        id='value'
+                        size='small'
+                        styleTextField='default'
+                        required
+                      ></CustomInput>
+                    </ContainerTextField>
+                    <ContainerFlexSpace>
+                      <div>Maxium desposit</div>
+                      <div>0.00001 ETH</div>
+                    </ContainerFlexSpace>
+                    <ContainerFlexSpace>
+                      <div>Network desposit</div>
+                      <div>$12.34</div>
+                    </ContainerFlexSpace>
+                    <ContainerFlexSpace>
+                      <TextHeaderOverview>Total cost</TextHeaderOverview>
+                      <TextHeaderOverview>$12.34</TextHeaderOverview>
+                    </ContainerFlexSpace>
+                    <ContainerRight>
+                      <CustomButton type='submit' text='Transfer' styleButton='primary' width='150px' height='50px'></CustomButton>
+                    </ContainerRight>
+                  </FormGroup>
+                </form>
               </BackgroundPage>
             </ContainerTabs>
           </Grid>
@@ -236,9 +288,6 @@ const SelectCustom = styled(Select)`
   border-radius: 8px !important;
   margin: 0;
 `;
-const InputLabelCustom = styled(InputLabel)`
-  border-radius: 8px !important;
-`;
 const ContainerFlexSpace = styled.div`
   display: flex;
   justify-content: space-between;
@@ -287,6 +336,9 @@ export const TabsCustom = styled(Tabs)`
   .css-1aquho2-MuiTabs-indicator {
     background-color: #f6f6f6 !important;
   }
+  .css-1h9z7r5-MuiButtonBase-root-MuiTab-root.Mui-selected {
+    background-color: ${props => props.theme.colors.white} !important;
+  }
   .css-1h9z7r5-MuiButtonBase-root-MuiTab-root {
     min-height: initial !important;
     height: 40px !important;
@@ -309,7 +361,6 @@ export const TabsCustom = styled(Tabs)`
     `}
 `;
 const TabTransfer = styled(Tab)`
-  background-color: white !important;
   border-radius: 8px !important;
   margin: 5px !important;
 
@@ -347,4 +398,14 @@ export const NetworkContainerFixed = styled.div`
         margin-right: 44px;
         float: right;
         `}
+`;
+
+const SpanRed = styled.span`
+  color: #cf2d2d;
+`;
+const ContainerTextField = styled.div`
+  margin: 10px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
 `;

@@ -16,5 +16,15 @@ export const GlobalStyles = createGlobalStyle<{ theme: Theme }>`
     margin: 0;
     font-family:  'Inter', sans-serif;
     font-style: normal;
+    .css-1e6y48t-MuiButtonBase-root-MuiButton-root{
+      text-transform: none !important;
+    }
+    .css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input{
+      border: 1px !important;
+      border-radius: 8px !important;
+    }
+    .MuiFormLabel-root{
+    //  position: static;
+    }
   }
 `;

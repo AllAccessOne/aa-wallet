@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { ThemeProvider } from "styled-components";
 import { lightTheme, darkTheme } from "../../styles/theme";
 import { RoutesProps } from "../../types/route.type";
@@ -6,7 +6,6 @@ import { GlobalStyles } from "../../styles/global.css";
 import { Grid } from "@mui/material";
 import { Header, Footer } from "../";
 import Slider from "../Sidebar";
-import { useState, useEffect } from "react";
 import { routes } from "../../configs/data";
 import { useLocation } from "react-router-dom";
 

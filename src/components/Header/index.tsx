@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useLocation } from "react-router-dom";
 import { routes } from "../../configs/data";
@@ -6,7 +6,6 @@ import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
 import Slider from "../Sidebar";
 import { Menu } from "../../assets/icon";
-import { useState, useEffect } from "react";
 import SearchComponet from "../TextField";
 import { SearchIcon } from "../../assets/icon";
 import base from "../../styles/theme/base";
@@ -46,7 +45,7 @@ const Header = () => {
           hiddenLabel
           fullWidth
           color='primary'
-          styleTextField='default'
+          styleTextField='disable'
           width='300px'
         />
       </SearchContainer>

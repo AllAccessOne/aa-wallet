@@ -1,10 +1,9 @@
 import { Page } from "../../styles";
-import { Grid, Container } from "@mui/material";
+import { Grid } from "@mui/material";
 import { NetworkContainer } from "../../components/Network";
 import { myListCoin, historyData } from "../../configs/data/test";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
-import { useState, useEffect } from "react";
 
 import {
   NetworkContainerFixed,
@@ -75,7 +74,7 @@ const Overview = () => {
                 hiddenLabel
                 fullWidth
                 color='primary'
-                styleTextField='default'
+                styleTextField='disable'
                 width='100%'
               />
             </SearchContainer>

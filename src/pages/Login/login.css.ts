@@ -91,9 +91,17 @@ export const Subtitle = styled.div`
 `;
 export const ContainerLoginButton = styled.div`
   margin-top: 10vh;
+  ${breakpoint("xs")`
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+  `}
   ${breakpoint("md")`
+      display: block;
       margin-left: 5vw;
-    `}
+      margin-right: 0;
+  `}
 `;
 
 export const CustomGrid = styled(Grid)`
@@ -109,11 +117,11 @@ export const OrLineContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 70%;
+  width: 80%;
   margin-top: 2vh;
   margin-bottom: 2vh;
   hr {
-    width: 45%;
+    width: 47%;
     color: ${({ theme }) => theme.colors.neutrals.gray300};
     background-color: ${({ theme }) => theme.colors.neutrals.gray300};
     border-width: 0;

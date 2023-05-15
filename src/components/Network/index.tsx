@@ -3,7 +3,7 @@ import styled from "styled-components";
 import MenuItem from "@mui/material/MenuItem";
 import ButtonCustom from "../Button";
 import FormControl from "@mui/material/FormControl";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
+import Select from "@mui/material/Select";
 import { listNetWorks } from "../../configs/data/menu";
 import base from "../../styles/theme/base";
 import { createBreakpoint } from "styled-components-breakpoint";

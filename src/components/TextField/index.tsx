@@ -1,13 +1,7 @@
 import styled from "styled-components";
-import base from "../../styles/theme/base";
-import { createBreakpoint } from "styled-components-breakpoint";
 import { TextField, TextFieldProps } from "@mui/material";
-import { Input, InputProps } from "@mui/material";
-
-const breakpoint = createBreakpoint(base.breakpoints);
 
 type Props = {
-  text?: string;
   iconLeft?: React.FunctionComponent<
     React.SVGProps<SVGSVGElement> & {
       title?: string | undefined;
@@ -25,6 +19,7 @@ type Props = {
   gap?: string;
   fontSize?: string;
   styleTextField?: "default" | "typing" | "disable" | "successfull" | "error" | "typed";
+  label?: string;
 };
 const TextFieldComponent = styled(TextField)<TextFieldProps & Props>`
   background-color: ${props => {
@@ -33,7 +28,7 @@ const TextFieldComponent = styled(TextField)<TextFieldProps & Props>`
     } else if (props.styleTextField === "typing") {
       return props.theme.colors.white;
     } else if (props.styleTextField === "disable") {
-      return "rgba(0, 0, 0, 0.1);";
+      return "#ECECED";
     } else if (props.styleTextField === "successfull") {
       return "rgba(0, 0, 0, 0.1);";
     } else if (props.styleTextField === "error") {
@@ -70,8 +65,10 @@ const TextFieldComponent = styled(TextField)<TextFieldProps & Props>`
   }
   border-radius: 8px !important;
 `;
-
-const TextFieldTemplate: React.FC<TextFieldProps & Props> = (props: TextFieldProps & Props) => {
+const TextFieldContainer = styled.div<Props>`
+  width: ${props => props.width} !important;
+`;
+const TextFieldTemplate = (props: TextFieldProps & Props) => {
   return <TextFieldComponent {...props}></TextFieldComponent>;
 };
 
