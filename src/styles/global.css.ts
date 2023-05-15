@@ -23,8 +23,13 @@ export const GlobalStyles = createGlobalStyle<{ theme: Theme }>`
       border: 1px !important;
       border-radius: 8px !important;
     }
-    .MuiFormLabel-root{
-    //  position: static;
+    .css-1h9z7r5-MuiButtonBase-root-MuiTab-root{
+      text-transform: none !important;
+    }
+    .css-k4qjio-MuiFormHelperText-root{
+      background-color: rgb(250, 250, 250) !important;
+      margin: 0;
+      padding-left: 10px;
     }
   }
 `;

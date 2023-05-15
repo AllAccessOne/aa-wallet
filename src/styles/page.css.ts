@@ -27,3 +27,16 @@ export const TitlePage = styled.div`
     display: block;
     `}
 `;
+
+export const TitlePageBlack = styled.div`
+  font-size: ${({ theme }) => theme.fontSizes.xxxl + "px"};
+  font-weight: ${({ theme }) => theme.fontWeights.semiBold};
+  color: ${({ theme }) => theme.colors.black};
+  line-height: 39px;
+  ${breakpoint("sm")`
+    display: none;
+  `}
+  ${breakpoint("md")`
+    display: block;
+    `}
+`;

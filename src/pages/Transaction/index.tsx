@@ -16,8 +16,8 @@ import { Copy } from "../../assets/icon";
 import QRCode from "react-qr-code";
 import { OverviewHeaderTopCoin, TextHeaderOverview } from "../Overview/overview.css";
 import FormGroup from "@mui/material/FormGroup";
-import React, { useReducer } from "react";
-
+import React, { useEffect } from "react";
+import web3 from "web3";
 import styled from "styled-components";
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -44,25 +44,55 @@ function a11yProps(index: number) {
     "aria-controls": `simple-tabpanel-${index}`,
   };
 }
+
 const Transaction = () => {
   const myAdress = "0x15375...b080f";
   const myFullAddress = "0xea5a9433df5ea7f57206668e71d8577362dfed02";
   const [value, setValue] = React.useState(0);
   const [token, setToken] = React.useState("ETH");
-  const [amount, setAmount] = React.useState("0");
+  const [amount, setAmount] = React.useState("");
   const [addressTo, setAddressTo] = React.useState("");
+  const [checkAddress, setCheckAddress] = React.useState(true);
+  const [checkAmount, setCheckAmount] = React.useState(true);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    let data = {
-      token: token,
-      addressTo: addressTo,
-      amount: amount,
-    };
-    console.log(data);
+    if (!handleValidatorAddress() && !handleValidatorAmount()) {
+      let data = {
+        token: token,
+        addressTo: addressTo,
+        amount: Number(amount),
+      };
+      console.log(data);
+    } else {
+      if (handleValidatorAddress()) {
+        setCheckAddress(false);
+      }
+      if (handleValidatorAmount()) {
+        setCheckAmount(false);
+      }
+    }
+  };
+  const handleValidatorAddress = (value: string = addressTo) => {
+    if (value.slice(0, 2) !== "0x") {
+      return "Address must be start 0x";
+    }
+    if (value.length !== 42) {
+      return "Address length must be 42 characters";
+    }
+    return "";
+  };
+  const handleValidatorAmount = (value: string = amount) => {
+    let valueNumber = Number(value);
+    if (!valueNumber) {
+      return "Amount must be a number and different 0";
+    }
+    if (valueNumber <= 0) return "Amount must be more than 0";
+
+    return "";
   };
 
   return (
@@ -85,9 +115,9 @@ const Transaction = () => {
         <Grid container columns={{ xs: 100, sm: 100, md: 100, lg: 100, xl: 100 }}>
           <Grid>
             <ContainerTabs value={value} index={0}>
-              <TilePageContainer>
+              <TitlePageContainer>
                 <TitlePage>Transfer your Ethereum</TitlePage>
-              </TilePageContainer>
+              </TitlePageContainer>
               <SubTitlePage>You need to choose the correct network, address and coin to transfer to another wallet address.</SubTitlePage>
             </ContainerTabs>
           </Grid>
@@ -127,14 +157,16 @@ const Transaction = () => {
                         Transfer to <SpanRed>*</SpanRed>
                       </label>
                       <CustomInput
+                        error={!checkAddress}
                         onChange={e => {
                           setAddressTo(e.target.value);
+                          handleValidatorAddress(e.target.value) ? setCheckAddress(false) : setCheckAddress(true);
                         }}
+                        helperText={!checkAddress ? handleValidatorAddress() : ""}
                         placeholder='Enter address'
                         id='addressTo'
                         size='small'
                         styleTextField='default'
-                        required
                       ></CustomInput>
                     </ContainerTextField>
                     <ContainerTextField>
@@ -142,14 +174,16 @@ const Transaction = () => {
                         Amount <SpanRed>*</SpanRed>
                       </label>
                       <CustomInput
+                        error={!checkAmount}
                         onChange={e => {
                           setAmount(e.target.value);
+                          handleValidatorAmount(e.target.value) ? setCheckAmount(false) : setCheckAmount(true);
                         }}
                         placeholder='Enter amount'
                         id='value'
                         size='small'
                         styleTextField='default'
-                        required
+                        helperText={!checkAmount ? handleValidatorAmount() : ""}
                       ></CustomInput>
                     </ContainerTextField>
                     <ContainerFlexSpace>
@@ -177,7 +211,7 @@ const Transaction = () => {
               <BackgroundPage>
                 <ReceiveTagHeader>Account balance</ReceiveTagHeader>
                 <CopyAddressContainer>
-                  {myAdress} <Copy />{" "}
+                  {myAdress} <Copy />
                 </CopyAddressContainer>
                 <BalanceNumberCard>
                   {myListCoin.find(coin => coin.symbol === token)?.balance} {token}
@@ -189,9 +223,9 @@ const Transaction = () => {
         <Grid container columns={{ xs: 100, sm: 100, md: 100, lg: 100, xl: 100 }}>
           <Grid item xs={100}>
             <TabPanel value={value} index={1}>
-              <TilePageContainer>
+              <TitlePageContainer>
                 <TitlePage>Scan QR code</TitlePage>
-              </TilePageContainer>
+              </TitlePageContainer>
             </TabPanel>
           </Grid>
           <Grid item xs={100} sm={100} md={100} lg={50} xl={55}>
@@ -247,7 +281,7 @@ const ReceiveTagHeader = styled.div`
   line-height: 24px;
   color: ${({ theme }) => theme.colors.neutrals.gray600};
 `;
-const SubTitlePage = styled.div`
+export const SubTitlePage = styled.div`
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   font-size: ${({ theme }) => theme.fontSizes.xs + "px"};
   line-height: 24px;
@@ -270,7 +304,7 @@ const SubTitlePage = styled.div`
   `}
 `;
 
-const BackgroundPage = styled.div`
+export const BackgroundPage = styled.div`
   background-color: #fafafa;
   padding: 40px;
   border-radius: 8px;
@@ -294,7 +328,7 @@ const ContainerFlexSpace = styled.div`
   align-items: center;
   margin-top: 10px;
 `;
-const ContainerTabs = styled(TabPanel)`
+export const ContainerTabs = styled(TabPanel)`
   .css-ahj2mt-MuiTypography-root {
     width: 100%;
   }
@@ -322,7 +356,7 @@ const BalanceNumberCard = styled.div`
   line-height: 48px;
   margin: 20px 0;
 `;
-export const TilePageContainer = styled.div`
+export const TitlePageContainer = styled.div`
   ${breakpoint("xs")`
     display: none;
 `}
@@ -360,7 +394,7 @@ export const TabsCustom = styled(Tabs)`
       z-index: 0;
     `}
 `;
-const TabTransfer = styled(Tab)`
+export const TabTransfer = styled(Tab)`
   border-radius: 8px !important;
   margin: 5px !important;
 
@@ -400,10 +434,10 @@ export const NetworkContainerFixed = styled.div`
         `}
 `;
 
-const SpanRed = styled.span`
+export const SpanRed = styled.span`
   color: #cf2d2d;
 `;
-const ContainerTextField = styled.div`
+export const ContainerTextField = styled.div`
   margin: 10px 0;
   display: flex;
   flex-direction: column;

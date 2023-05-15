@@ -13,5 +13,23 @@ import { ReactComponent as LinkTransaction } from "./system/LinkTransaction.svg"
 import { ReactComponent as Empty } from "./system/Frame.svg";
 import { ReactComponent as Copy } from "./system/copy.svg";
 import { ReactComponent as Computer } from "./system/Computer.svg";
+import { ReactComponent as Trash } from "./system/trash.svg";
 
-export { EmptyWallet, ReceiptSearch, Setting, ArrowRight, ArrowDown, Google, Menu, ChooseToken, SearchIcon, SendTransactionHistoty, ReceiveTransactionHistoty, LinkTransaction, Empty, Copy, Computer };
+export {
+  Trash,
+  EmptyWallet,
+  ReceiptSearch,
+  Setting,
+  ArrowRight,
+  ArrowDown,
+  Google,
+  Menu,
+  ChooseToken,
+  SearchIcon,
+  SendTransactionHistoty,
+  ReceiveTransactionHistoty,
+  LinkTransaction,
+  Empty,
+  Copy,
+  Computer,
+};
