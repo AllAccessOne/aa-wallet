@@ -12,13 +12,21 @@ import CustomInput from "../../components/TextField";
 import Select from "@mui/material/Select";
 import { NetworkContainer } from "../../components/Network";
 import { myListCoin } from "../../configs/data/test";
-import { Copy } from "../../assets/icon";
+import { Copy, DropdownBlack } from "../../assets/icon";
 import QRCode from "react-qr-code";
 import { OverviewHeaderTopCoin, TextHeaderOverview } from "../Overview/overview.css";
 import FormGroup from "@mui/material/FormGroup";
 import React, { useEffect } from "react";
 import web3 from "web3";
+import { Controller, useForm } from "react-hook-form";
+
 import styled from "styled-components";
+
+interface FormData {
+  token: string;
+  addressTo: string;
+  amount: string;
+}
 interface TabPanelProps {
   children?: React.ReactNode;
   index: number;
@@ -49,52 +57,38 @@ const Transaction = () => {
   const myAdress = "0x15375...b080f";
   const myFullAddress = "0xea5a9433df5ea7f57206668e71d8577362dfed02";
   const [value, setValue] = React.useState(0);
-  const [token, setToken] = React.useState("ETH");
-  const [amount, setAmount] = React.useState("");
-  const [addressTo, setAddressTo] = React.useState("");
-  const [checkAddress, setCheckAddress] = React.useState(true);
-  const [checkAmount, setCheckAmount] = React.useState(true);
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    getValues,
+    control,
+    formState: { errors },
+  } = useForm<FormData>({
+    defaultValues: {
+      token: "ETH",
+      addressTo: "",
+      amount: "",
+    },
+  });
+
+  const validateAmount = (value: string) => {
+    const parsedValue = Number(value);
+    if (isNaN(parsedValue) || parsedValue <= 0) {
+      return false;
+    }
+    return true;
+  };
+  const onSubmit = React.useCallback((values: FormData) => {
+    console.log(values);
+    // reset();
+  }, []);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
-  const handleSubmit = (e: any) => {
-    e.preventDefault();
-    if (!handleValidatorAddress() && !handleValidatorAmount()) {
-      let data = {
-        token: token,
-        addressTo: addressTo,
-        amount: Number(amount),
-      };
-      console.log(data);
-    } else {
-      if (handleValidatorAddress()) {
-        setCheckAddress(false);
-      }
-      if (handleValidatorAmount()) {
-        setCheckAmount(false);
-      }
-    }
-  };
-  const handleValidatorAddress = (value: string = addressTo) => {
-    if (value.slice(0, 2) !== "0x") {
-      return "Address must be start 0x";
-    }
-    if (value.length !== 42) {
-      return "Address length must be 42 characters";
-    }
-    return "";
-  };
-  const handleValidatorAmount = (value: string = amount) => {
-    let valueNumber = Number(value);
-    if (!valueNumber) {
-      return "Amount must be a number and different 0";
-    }
-    if (valueNumber <= 0) return "Amount must be more than 0";
-
-    return "";
-  };
-
+  const [token, setToken] = React.useState("ETH");
   return (
     <Page>
       <Grid container columns={{ xs: 100, sm: 100, md: 100, lg: 100, xl: 100 }}>
@@ -124,21 +118,25 @@ const Transaction = () => {
           <Grid item xs={100} sm={100} md={100} lg={50} xl={55}>
             <ContainerTabs value={value} index={0}>
               <BackgroundPage>
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit(onSubmit)}>
                   <FormGroup>
                     <FormControl fullWidth>
                       <ContainerTextField>
                         <label>
                           Select coin <SpanRed>*</SpanRed>
                         </label>
+
                         <CustomInput
+                          value={token}
                           styleTextField='default'
                           select
                           id='token'
-                          value={token}
                           size='small'
-                          onChange={e => {
-                            setToken(e.target.value as string);
+                          {...register("token", {
+                            onChange: e => setToken(e.target.value),
+                          })}
+                          SelectProps={{
+                            IconComponent: () => <DropdownBlack style={{ marginRight: "10px" }} />,
                           }}
                         >
                           {myListCoin.map(coin => (
@@ -156,35 +154,58 @@ const Transaction = () => {
                       <label>
                         Transfer to <SpanRed>*</SpanRed>
                       </label>
-                      <CustomInput
-                        error={!checkAddress}
-                        onChange={e => {
-                          setAddressTo(e.target.value);
-                          handleValidatorAddress(e.target.value) ? setCheckAddress(false) : setCheckAddress(true);
+                      <Controller
+                        render={({ field: { name, value, onChange } }) => (
+                          <CustomInput
+                            error={!!errors.addressTo}
+                            onChange={onChange}
+                            name={name}
+                            value={value}
+                            helperText={errors.addressTo && "Invalid address"}
+                            placeholder='Enter address'
+                            id='addressTo'
+                            size='small'
+                            styleTextField='default'
+                          />
+                        )}
+                        control={control}
+                        name='addressTo'
+                        defaultValue=''
+                        rules={{
+                          pattern: {
+                            value: /^0x[a-fA-F0-9]{40}$/,
+                            message: "",
+                          },
+                          required: { value: true, message: "" },
                         }}
-                        helperText={!checkAddress ? handleValidatorAddress() : ""}
-                        placeholder='Enter address'
-                        id='addressTo'
-                        size='small'
-                        styleTextField='default'
-                      ></CustomInput>
+                      />
                     </ContainerTextField>
                     <ContainerTextField>
                       <label>
                         Amount <SpanRed>*</SpanRed>
                       </label>
-                      <CustomInput
-                        error={!checkAmount}
-                        onChange={e => {
-                          setAmount(e.target.value);
-                          handleValidatorAmount(e.target.value) ? setCheckAmount(false) : setCheckAmount(true);
+                      <Controller
+                        render={({ field: { name, value, onChange } }) => (
+                          <CustomInput
+                            error={!!errors.amount}
+                            onChange={onChange}
+                            name={name}
+                            placeholder='Enter amount'
+                            id='amount'
+                            size='small'
+                            value={value}
+                            styleTextField='default'
+                            helperText={errors.amount && "Invalid value"}
+                          />
+                        )}
+                        control={control}
+                        name='amount'
+                        defaultValue=''
+                        rules={{
+                          required: { value: true, message: "" },
+                          validate: validateAmount,
                         }}
-                        placeholder='Enter amount'
-                        id='value'
-                        size='small'
-                        styleTextField='default'
-                        helperText={!checkAmount ? handleValidatorAmount() : ""}
-                      ></CustomInput>
+                      />
                     </ContainerTextField>
                     <ContainerFlexSpace>
                       <div>Maxium desposit</div>
@@ -239,7 +260,7 @@ const Transaction = () => {
                   </CopyAddressContainer>
                 </ContainerFlexSpace>
                 <AddressContainer>
-                  <CustomInput disabled defaultValue={myFullAddress} variant='outlined' fullWidth size='medium' margin='normal' styleTextField='disable' />
+                  <CustomInput size='small' disabled defaultValue={myFullAddress} variant='outlined' fullWidth margin='normal' styleTextField='disable' />
                 </AddressContainer>
               </BackgroundPage>
             </TabPanel>
@@ -310,7 +331,7 @@ export const BackgroundPage = styled.div`
   border-radius: 8px;
 `;
 
-const SelectCoin = styled.div`
+export const SelectCoin = styled.div`
   display: flex;
   justify-content: left;
   align-items: center;

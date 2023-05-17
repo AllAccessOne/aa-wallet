@@ -54,6 +54,7 @@ const TextFieldComponent = styled(TextField)<TextFieldProps & Props>`
     }} !important;
     width: ${props => props.width} !important;
   }
+  width: ${props => props.width} !important;
   .css-md26zr-MuiInputBase-root-MuiOutlinedInput-root {
     border-radius: 8px !important;
   }
@@ -64,9 +65,6 @@ const TextFieldComponent = styled(TextField)<TextFieldProps & Props>`
     border-radius: 8px !important;
   }
   border-radius: 8px !important;
-`;
-const TextFieldContainer = styled.div<Props>`
-  width: ${props => props.width} !important;
 `;
 const TextFieldTemplate = (props: TextFieldProps & Props) => {
   return <TextFieldComponent {...props}></TextFieldComponent>;

@@ -93,4 +93,9 @@ export const Devices: Array<Device> = [
     ip: "123.456.789.101",
     id: "2404",
   },
+  {
+    name: "Apple",
+    ip: "123.456.789.101",
+    id: "2404",
+  },
 ];

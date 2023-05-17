@@ -8,6 +8,7 @@ import { listNetWorks } from "../../configs/data/menu";
 import base from "../../styles/theme/base";
 import { createBreakpoint } from "styled-components-breakpoint";
 const breakpoint = createBreakpoint(base.breakpoints);
+import { Dropdown } from "../../assets/icon";
 export const NetworkContainer = () => {
   const [network, setNetwork] = React.useState("Ethereum Mainnet");
 
@@ -19,7 +20,7 @@ export const NetworkContainer = () => {
     <Container>
       <ButtonCustom width='40%' height='40px' styleButton='style' padding='8px 12px' gap='10px' fontSize='14px' text='0x15375...b080f' />
       <FormControlCustom>
-        <SelectCustom value={network} onChange={handleChange}>
+        <SelectCustom IconComponent={() => <Dropdown style={{ marginRight: "10px" }} />} value={network} onChange={handleChange}>
           {listNetWorks.map(network => (
             <MenuItemCustom value={network.description}>
               <p>{network.description}</p>

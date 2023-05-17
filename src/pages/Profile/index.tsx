@@ -1,4 +1,4 @@
-import { Page, TitlePageBlack } from "../../styles";
+import { Page, TitlePageBlack, TitlePage } from "../../styles";
 import styled from "styled-components";
 import { Grid } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
@@ -15,7 +15,9 @@ import { Computer, Trash } from "../../assets/icon";
 import { ConatainerDevice, GroupLeftItemDevice, ContainerText, NameText, IpText, IdText } from "../MultipleFactors";
 import Tooltip from "@mui/material/Tooltip";
 import IconButton from "@mui/material/IconButton";
-import { TabsCustom, TabTransfer, ContainerTabs, BackgroundPage, SubTitlePage, CopyAddressContainer, ContainerTextField, SpanRed } from "../Transaction";
+import Box from "@mui/material/Box";
+import Modal from "@mui/material/Modal";
+import { TabsCustom, TabTransfer, ContainerTabs, SubTitlePage, CopyAddressContainer, ContainerTextField, SpanRed } from "../Transaction";
 import React from "react";
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -42,6 +44,10 @@ function a11yProps(index: number) {
     "aria-controls": `simple-tabpanel-${index}`,
   };
 }
+type Device = {
+  name: string;
+  ip: string;
+};
 const Profile = () => {
   const [value, setValue] = React.useState(0);
 
@@ -49,7 +55,21 @@ const Profile = () => {
     setValue(newValue);
   };
   const myAdress = "0x15375...b080f";
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
 
+  const handleDelete = (name: string, ip: string) => {
+    setDevice({
+      name: name,
+      ip: ip,
+    });
+    handleOpen();
+  };
+  const handleClose = () => setOpen(false);
+  const [device, setDevice] = React.useState<Device>({
+    name: "",
+    ip: "",
+  });
   return (
     <Page>
       <OverviewHeaderTopCoin>
@@ -118,33 +138,60 @@ const Profile = () => {
                 <CustomInput size='small' fullWidth value={"kiettran@lecle.co.kr"} styleTextField='default' disabled></CustomInput>
               </ContainerTextField>
               <ContainerButtonFactors>
-                <CustomButton width='100px' mTop='50px' mBottom='20px' mRight='20px' text='Cancel' styleButton='inactive'></CustomButton>
-                <CustomButton width='100px' mTop='50px' mBottom='20px' text='Confirm' styleButton='primary'></CustomButton>
+                <CustomButton height='48px' width='100px' mTop='50px' mBottom='20px' mRight='20px' text='Cancel' styleButton='inactive'></CustomButton>
+                <CustomButton height='48px' width='100px' mTop='50px' mBottom='20px' text='Confirm' styleButton='primary'></CustomButton>
               </ContainerButtonFactors>
             </BackgroundPage>
           </Grid>
           <Grid item xs={100} sm={100} md={100} lg={50} xl={45}>
-            <BackgroundPage>
-              <TextHeaderCard>List devices</TextHeaderCard>
-              {Devices.map(device => (
-                <ConatainerDevice>
-                  <GroupLeftItemDevice>
-                    <Computer />
-                    <ContainerText>
-                      <NameText> {device.name}</NameText>
-                      <IpText>IP: {device.ip}</IpText>
-                    </ContainerText>
-                  </GroupLeftItemDevice>
-                  <Tooltip title='Delete' placement='top-start'>
-                    <IconButton>
-                      <Trash />
-                    </IconButton>
-                  </Tooltip>
-                </ConatainerDevice>
-              ))}
-            </BackgroundPage>
+            <ListDeviecsContainer>
+              <BackgroundPage>
+                <TextHeaderCard>List devices</TextHeaderCard>
+                {Devices.map(device => (
+                  <ConatainerDevice>
+                    <GroupLeftItemDevice>
+                      <Computer />
+                      <ContainerText>
+                        <NameText> {device.name}</NameText>
+                        <IpText>IP: {device.ip}</IpText>
+                      </ContainerText>
+                    </GroupLeftItemDevice>
+                    <Tooltip title='Delete' placement='top-start'>
+                      <IconButton
+                        onClick={() => {
+                          handleDelete(device.name, device.ip);
+                        }}
+                      >
+                        <Trash />
+                      </IconButton>
+                    </Tooltip>
+                  </ConatainerDevice>
+                ))}
+              </BackgroundPage>
+            </ListDeviecsContainer>
           </Grid>
         </Grid>
+        <Modal open={open} onClose={handleClose} aria-labelledby='modal-modal-title' aria-describedby='modal-modal-description'>
+          <Box sx={style}>
+            <TitlePage>Delete devices</TitlePage>
+            <SubTitlePage>This device will be erased and automatically logged out, are you sure?</SubTitlePage>
+            <ContainerDeviceModal>
+              <ConatainerDevice>
+                <GroupLeftItemDevice>
+                  <Computer />
+                  <ContainerText>
+                    <NameText>{device.name}</NameText>
+                    <IpText>IP: {device.ip}</IpText>
+                  </ContainerText>
+                </GroupLeftItemDevice>
+              </ConatainerDevice>
+            </ContainerDeviceModal>
+            <ContainerButtonFactors>
+              <CustomButton onClick={handleClose} height='48px' width='150px' mTop='50px' mBottom='20px' mRight='20px' text='Back' styleButton='inactive'></CustomButton>
+              <CustomButton height='48px' width='150px' mTop='50px' mBottom='20px' text="Yes, I'm sure" styleButton='primary'></CustomButton>
+            </ContainerButtonFactors>
+          </Box>
+        </Modal>
       </ContainerTabs>
     </Page>
   );
@@ -152,6 +199,17 @@ const Profile = () => {
 
 export default Profile;
 
+const ContainerDeviceModal = styled.div`
+  width: 100%;
+`;
+const ListDeviecsContainer = styled.div`
+  ${breakpoint("xs")`
+    margin-left: 10px;
+`}
+  ${breakpoint("lg")`
+    margin-left: 44px;
+  `}
+`;
 const TitlePageContainer = styled.div`
   margin-top: 20px;
   ${breakpoint("xs")`
@@ -196,3 +254,26 @@ const ContainerNumberFactors = styled.div`
   line-height: 20px;
   background-color: #f0f0f1;
 `;
+
+export const BackgroundPage = styled.div`
+  background-color: #fafafa;
+  padding: 40px;
+  border-radius: 8px;
+  min-height: 40vh;
+`;
+
+const style = {
+  position: "absolute" as "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  bgcolor: "background.paper",
+  boxShadow: 24,
+  p: 4,
+  borderRadius: 4,
+  display: "flex",
+  justifyContent: "center",
+  flexDirection: "column",
+  textAlign: "center",
+  alignItems: "center",
+};

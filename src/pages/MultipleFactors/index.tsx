@@ -162,6 +162,7 @@ export const ConatainerDevice = styled.div`
 `;
 export const ContainerText = styled.div`
   margin-left: 10px;
+  text-align: left;
 `;
 export const GroupLeftItemDevice = styled.div`
   display: flex;

@@ -20,12 +20,6 @@ export const TitlePage = styled.div`
   font-weight: ${({ theme }) => theme.fontWeights.semiBold};
   color: ${({ theme }) => theme.colors.brands.blue400};
   line-height: 39px;
-  ${breakpoint("sm")`
-    display: none;
-  `}
-  ${breakpoint("md")`
-    display: block;
-    `}
 `;
 
 export const TitlePageBlack = styled.div`
@@ -33,10 +27,4 @@ export const TitlePageBlack = styled.div`
   font-weight: ${({ theme }) => theme.fontWeights.semiBold};
   color: ${({ theme }) => theme.colors.black};
   line-height: 39px;
-  ${breakpoint("sm")`
-    display: none;
-  `}
-  ${breakpoint("md")`
-    display: block;
-    `}
 `;
