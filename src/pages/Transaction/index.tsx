@@ -9,19 +9,21 @@ import CustomButton from "../../components/Button";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import CustomInput from "../../components/TextField";
-import Select from "@mui/material/Select";
 import { NetworkContainer } from "../../components/Network";
 import { myListCoin } from "../../configs/data/test";
 import { Copy, DropdownBlack } from "../../assets/icon";
 import QRCode from "react-qr-code";
 import { OverviewHeaderTopCoin, TextHeaderOverview } from "../Overview/overview.css";
 import FormGroup from "@mui/material/FormGroup";
-import React, { useEffect } from "react";
-import web3 from "web3";
+import React from "react";
 import { Controller, useForm } from "react-hook-form";
-
+import { sliceAddress, copyAddress } from "../../utils";
 import styled from "styled-components";
-
+// import Box from "@mui/material/Box";
+// import IconButton from "@mui/material/IconButton";
+// import CloseIcon from "@mui/icons-material/Close";
+// import { ModalCustom, HeaderModalInforTransaction, TitleModal } from "../../components/Table";
+// import { ModalSubtitle, ContainerTextFieldTimeCustom } from "../History"
 interface FormData {
   token: string;
   addressTo: string;
@@ -54,15 +56,15 @@ function a11yProps(index: number) {
 }
 
 const Transaction = () => {
-  const myAdress = "0x15375...b080f";
-  const myFullAddress = "0xea5a9433df5ea7f57206668e71d8577362dfed02";
+  const myAdress = "0x04E407C7d7C2A6aA7f2e66B0B8C0dBcafA5E3Afe";
   const [value, setValue] = React.useState(0);
-
+  // const [open, setOpen] = React.useState(false);
+  // const handleOpen = () => setOpen(true);
+  // const handleClose = () => setOpen(false);
   const {
     register,
     handleSubmit,
     reset,
-    getValues,
     control,
     formState: { errors },
   } = useForm<FormData>({
@@ -82,7 +84,7 @@ const Transaction = () => {
   };
   const onSubmit = React.useCallback((values: FormData) => {
     console.log(values);
-    // reset();
+    reset();
   }, []);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -125,7 +127,6 @@ const Transaction = () => {
                         <label>
                           Select coin <SpanRed>*</SpanRed>
                         </label>
-
                         <CustomInput
                           value={token}
                           styleTextField='default'
@@ -140,7 +141,7 @@ const Transaction = () => {
                           }}
                         >
                           {myListCoin.map(coin => (
-                            <MenuItem value={coin.symbol}>
+                            <MenuItem key={coin.symbol} value={coin.symbol}>
                               <SelectCoin>
                                 <img width={"20px"} src={coin.img}></img>
                                 {coin.name}
@@ -231,8 +232,8 @@ const Transaction = () => {
             <ContainerTabs value={value} index={0}>
               <BackgroundPage>
                 <ReceiveTagHeader>Account balance</ReceiveTagHeader>
-                <CopyAddressContainer>
-                  {myAdress} <Copy />
+                <CopyAddressContainer onClick={() => copyAddress(myAdress)}>
+                  {sliceAddress(myAdress)} <Copy />
                 </CopyAddressContainer>
                 <BalanceNumberCard>
                   {myListCoin.find(coin => coin.symbol === token)?.balance} {token}
@@ -260,7 +261,7 @@ const Transaction = () => {
                   </CopyAddressContainer>
                 </ContainerFlexSpace>
                 <AddressContainer>
-                  <CustomInput size='small' disabled defaultValue={myFullAddress} variant='outlined' fullWidth margin='normal' styleTextField='disable' />
+                  <CustomInput size='small' disabled defaultValue={myAdress} variant='outlined' fullWidth margin='normal' styleTextField='disable' />
                 </AddressContainer>
               </BackgroundPage>
             </TabPanel>
@@ -269,7 +270,7 @@ const Transaction = () => {
             <TabPanel value={value} index={1}>
               <ContainerQRCode>
                 <BackgroundPageQR>
-                  <QRCode value={myFullAddress}></QRCode>
+                  <QRCode value={myAdress}></QRCode>
                 </BackgroundPageQR>
               </ContainerQRCode>
             </TabPanel>
@@ -339,10 +340,6 @@ export const SelectCoin = styled.div`
     margin-right: 10px;
   }
 `;
-const SelectCustom = styled(Select)`
-  border-radius: 8px !important;
-  margin: 0;
-`;
 const ContainerFlexSpace = styled.div`
   display: flex;
   justify-content: space-between;
@@ -351,7 +348,8 @@ const ContainerFlexSpace = styled.div`
 `;
 export const ContainerTabs = styled(TabPanel)`
   .css-ahj2mt-MuiTypography-root {
-    width: 100%;
+    width: 100% !important;
+    padding: 0 !important;
   }
 `;
 const ContainerRight = styled.div`
@@ -464,3 +462,20 @@ export const ContainerTextField = styled.div`
   flex-direction: column;
   justify-content: left;
 `;
+
+// const style = {
+//   position: "absolute" as "absolute",
+//   top: "50%",
+//   left: "50%",
+//   transform: "translate(-50%, -50%)",
+//   bgcolor: "background.paper",
+//   boxShadow: 24,
+//   p: 4,
+//   borderRadius: 4,
+//   display: "flex",
+//   justifyContent: "center",
+//   flexDirection: "column",
+//   textAlign: "center",
+//   alignItems: "center",
+//   width: 600,
+// };

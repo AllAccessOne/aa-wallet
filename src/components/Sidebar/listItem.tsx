@@ -4,7 +4,7 @@ import List from "@mui/material/List";
 import Collapse from "@mui/material/Collapse";
 import { subMenuItem } from "../../types/subMenuItem.type";
 import { ArrowRight, ArrowDown } from "../../assets/icon";
-import { MenuLink, IconArrowMenu, ListItemDiv, NavLinkCustom } from "./slider.css";
+import { MenuLink, IconArrowMenu, ListItemDiv, NavLinkCustom } from "./sidebar.css";
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
 type Props = {

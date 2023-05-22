@@ -13,9 +13,9 @@ export const GlobalStyles = createGlobalStyle<{ theme: Theme }>`
   body {
     background: ${({ theme }) => theme.colors.white};
     color: ${({ theme }) => theme.colors.neutrals.gray600};
-    margin: 0;
     font-family:  'Inter', sans-serif;
     font-style: normal;
+    margin: 0;
     .css-1e6y48t-MuiButtonBase-root-MuiButton-root{
       text-transform: none !important;
     }
@@ -30,6 +30,19 @@ export const GlobalStyles = createGlobalStyle<{ theme: Theme }>`
       background-color: rgb(250, 250, 250) !important;
       margin: 0;
       padding-left: 10px;
+    }
+    .css-wjh20t-MuiPagination-ul{
+      margin: 20px 0px;
+      display: flex;
+      justify-content: center;
+    }
+    .css-10w330c-MuiButtonBase-root-MuiPaginationItem-root.Mui-selected{
+      background: #E9F2FF;
+      border-radius: 3px;
+      color:#0C66E4;
+    }
+    .css-1ps6pg7-MuiPaper-root{
+      box-shadow: none !important;
     }
   }
 `;

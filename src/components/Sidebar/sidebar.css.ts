@@ -44,6 +44,7 @@ export const NavLinkCustom = styled(List)`
   a.active {
     color: ${props => props.theme.colors.brands.blue600};
     background-color: ${props => props.theme.colors.neutrals.gray300};
+    border-radius: 3px !important;
   }
   a {
     margin-left: auto;

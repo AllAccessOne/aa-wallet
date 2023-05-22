@@ -6,38 +6,21 @@ import CustomInput from "../../components/TextField";
 import CustomButton from "../../components/Button";
 import { Copy } from "../../assets/icon";
 import { TextHeaderCard } from "../MultipleFactors";
-import { OverviewHeaderTopCoin, TextHeaderOverview } from "../Overview/overview.css";
-import Typography from "@mui/material/Typography";
+import { OverviewHeaderTopCoin } from "../Overview/overview.css";
 import base from "../../styles/theme/base";
 import { createBreakpoint } from "styled-components-breakpoint";
 import { Devices } from "../../configs/data/test";
 import { Computer, Trash } from "../../assets/icon";
-import { ConatainerDevice, GroupLeftItemDevice, ContainerText, NameText, IpText, IdText } from "../MultipleFactors";
+import { ConatainerDevice, GroupLeftItemDevice, ContainerText, NameText, IpText } from "../MultipleFactors";
 import Tooltip from "@mui/material/Tooltip";
 import IconButton from "@mui/material/IconButton";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import { TabsCustom, TabTransfer, ContainerTabs, SubTitlePage, CopyAddressContainer, ContainerTextField, SpanRed } from "../Transaction";
 import React from "react";
-interface TabPanelProps {
-  children?: React.ReactNode;
-  index: number;
-  value: number;
-}
+import { sliceAddress, copyAddress } from "../../utils";
 const breakpoint = createBreakpoint(base.breakpoints);
 
-function TabPanel(props: TabPanelProps) {
-  const { children, value, index, ...other } = props;
-  return (
-    <div role='tabpanel' hidden={value !== index} id={`simple-tabpanel-${index}`} aria-labelledby={`simple-tab-${index}`} {...other}>
-      {value === index && (
-        <OverviewHeaderTopCoin>
-          <Typography>{children}</Typography>
-        </OverviewHeaderTopCoin>
-      )}
-    </div>
-  );
-}
 function a11yProps(index: number) {
   return {
     id: `simple-tab-${index}`,
@@ -54,7 +37,7 @@ const Profile = () => {
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
-  const myAdress = "0x15375...b080f";
+  const myAdress = "0x04E407C7d7C2A6aA7f2e66B0B8C0dBcafA5E3Afe";
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
 
@@ -90,11 +73,12 @@ const Profile = () => {
                 <Grid container columns={{ xs: 100, sm: 100, md: 100, lg: 100, xl: 100 }}>
                   <Grid item xs={100} md={30}>
                     <ContainerAvatar>
-                      <Avatar alt='Remy Sharp' src='https://haycafe.vn/wp-content/uploads/2021/11/Anh-avatar-dep-chat-lam-hinh-dai-dien.jpg' sx={{ width: 200, height: 200 }} />
+                      <Avatar alt='Remy Sharp' src='https://images.ctfassets.net/fu9did2d8yaw/2rUzSj8VDtr9YBmrU61c2G/a84a48f14f027886374cc618df4ae176/BAYC.png' sx={{ width: 200, height: 200 }} />
                       <CustomButton mTop='20px' mBottom='20px' text='Change avatar' styleButton='primary'></CustomButton>
-                      <CopyAddressContainer>
-                        {myAdress} <Copy />
+                      <CopyAddressContainer onClick={() => copyAddress(myAdress)}>
+                        {sliceAddress(myAdress)} <Copy />
                       </CopyAddressContainer>
+                      CustomBox' is assigned a value but never used
                     </ContainerAvatar>
                   </Grid>
                   <Grid item xs={100} md={70}>
@@ -148,7 +132,7 @@ const Profile = () => {
               <BackgroundPage>
                 <TextHeaderCard>List devices</TextHeaderCard>
                 {Devices.map(device => (
-                  <ConatainerDevice>
+                  <ConatainerDevice key={device.id}>
                     <GroupLeftItemDevice>
                       <Computer />
                       <ContainerText>

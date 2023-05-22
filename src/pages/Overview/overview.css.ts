@@ -10,25 +10,25 @@ export const NetworkContainerFixed = styled.div`
       padding-bottom: 10px;
     `}
   ${breakpoint("sm")`
-        margin-top: 10px;
-        align-items: center;
-        width: max-content;
-        margin-left: 10px;
+      margin-top: 10px;
+      align-items: center;
+      width: max-content;
+      margin-left: 10px;
+  `}
+  ${breakpoint("md")`
+      align-items: center;
+      margin: auto
+      width: max-content;
+      margin-left: 44px;
     `}
-     ${breakpoint("md")`
-        align-items: center;
-        margin: auto
-        width: max-content;
-        margin-left: 44px;
-      `}
-       ${breakpoint("lg")`
-        justify-content: center;
-        align-items: center;
-        margin-top: 44px;
-        width: max-content;
-        margin-right: 44px;
-        float: right;
-    `}
+  ${breakpoint("lg")`
+      justify-content: center;
+      align-items: center;
+      margin-top: 44px;
+      width: max-content;
+      margin-right: 44px;
+      float: right;
+  `}
 `;
 export const TilePageContainer = styled.div`
   ${breakpoint("xs")`
@@ -43,7 +43,7 @@ export const TilePageContainer = styled.div`
   align-items: center;
 `;
 export const ContentPageContainer = styled.div`
-  min-height: 40vh;
+  height: 370px;
   overflow: auto;
   ${breakpoint("xs")`
     margin: 44px 10px;
@@ -153,6 +153,12 @@ export const TransactionLinkContainer = styled.div`
   display: flex;
   justify-content: left;
   align-items: center;
+  ${breakpoint("xs")`
+      font-size: 13.5px;
+    `}
+  ${breakpoint("sm")`
+    font-size: 16px;
+  `}
 `;
 
 export const EmptyContainer = styled.div`

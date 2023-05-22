@@ -3,9 +3,18 @@ import { Background } from "../../assets/img";
 import Grid from "@mui/material/Grid";
 import base from "../../styles/theme/base";
 import { createBreakpoint } from "styled-components-breakpoint";
+import Slider from "react-slick";
 
 const breakpoint = createBreakpoint(base.breakpoints);
-
+export const CustomSlider = styled(Slider)`
+  .slick-dots li button:before {
+    font-size: 10px;
+    color: white !important;
+  }
+  .slick-dots li.slick-active button:before {
+    font-size: 15px !important;
+  }
+`;
 export const BackgroundImg = styled.div`
   background-image: url("${Background}");
   height: 100vh;

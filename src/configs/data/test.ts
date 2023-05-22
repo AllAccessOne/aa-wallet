@@ -33,33 +33,33 @@ export const myListCoin: Array<Coin> = [
 
 export const historyData: Array<History> = [
   {
-    from: "0x15375...b080f",
-    to: "0x15379...b080f",
+    from: "0x04E407C7d7C2A6aA7f2e66B0B8C0dBcafA5E3Afe",
+    to: "0x04E407C7d7C2A6aA7f2e66B0B8C0dBcafA5E3Af1",
     balance: "0.268 ",
   },
   {
-    from: "0x15379...b080f",
-    to: "0x15375...b080f",
+    from: "0x04E407C7d7C2A6aA7f2e66B0B8C0dBcafA5E3Af1",
+    to: "0x04E407C7d7C2A6aA7f2e66B0B8C0dBcafA5E3Afe",
     balance: "0.278",
   },
   {
-    from: "0x15379...b080f",
-    to: "0x15375...b080f",
+    from: "0x04E407C7d7C2A6aA7f2e66B0B8C0dBcafA5E3Afe",
+    to: "0x04E407C7d7C2A6aA7f2e66B0B8C0dBcafA5E3Af1",
     balance: "0.278",
   },
   {
-    from: "0x15379...b080f",
-    to: "0x15375...b080f",
+    from: "0x04E407C7d7C2A6aA7f2e66B0B8C0dBcafA5E3Afe",
+    to: "0x04E407C7d7C2A6aA7f2e66B0B8C0dBcafA5E3Af1",
     balance: "0.278",
   },
   {
-    from: "0x15379...b080f",
-    to: "0x15375...b080f",
+    from: "0x04E407C7d7C2A6aA7f2e66B0B8C0dBcafA5E3Af1",
+    to: "0x04E407C7d7C2A6aA7f2e66B0B8C0dBcafA5E3Afe",
     balance: "0.278",
   },
   {
-    from: "0x15379...b080f",
-    to: "0x15375...b080f",
+    from: "0x04E407C7d7C2A6aA7f2e66B0B8C0dBcafA5E3Af1",
+    to: "0x04E407C7d7C2A6aA7f2e66B0B8C0dBcafA5E3Afe",
     balance: "0.278",
   },
 ];
@@ -97,5 +97,109 @@ export const Devices: Array<Device> = [
     name: "Apple",
     ip: "123.456.789.101",
     id: "2404",
+  },
+];
+
+export interface Row {
+  time: string;
+  method: string;
+  amount: number;
+  from: string;
+  to: string;
+  network: string;
+  id: string;
+  token: string;
+}
+
+export const rows: Row[] = [
+  {
+    time: "2022-08-14 02:34",
+    method: "Approve",
+    amount: 244.68,
+    token: "USDT",
+    from: "0x04E407C7d7C2A6aA7f2e66B0B8C0dBcafA5E3Afe",
+    to: "0x04E407C7d7C2A6aA7f2e66B0B8C0dBcafA5E3Af1",
+    network: "Erthereum network",
+    id: "0xed3a265cebd603aa2cb9771be5c6ce10ff1e4c7a0be75111111111111111111",
+  },
+  {
+    time: "2022-08-14 02:34",
+    method: "Execute",
+    amount: 244.68,
+    token: "USDT",
+    from: "0x04E407C7d7C2A6aA7f2e66B0B8C0dBcafA5E3Af1",
+    to: "0x04E407C7d7C2A6aA7f2e66B0B8C0dBcafA5E3Afe",
+    network: "Erthereum network",
+    id: "0xed3a265cebd603aa2cb9771be5c6ce10ff1e4c7a0be222222222222222222222",
+  },
+  {
+    time: "2022-08-14 02:34",
+    method: "Transfer",
+    amount: 244.68,
+    token: "USDT",
+    from: "0x04E407C7d7C2A6aA7f2e66B0B8C0dBcafA5E3Af1",
+    to: "0x04E407C7d7C2A6aA7f2e66B0B8C0dBcafA5E3Afe",
+    network: "Erthereum network",
+    id: "0xed3a265cebd603aa2cb9771be5c6ce10ff1e4433333333333333333333333333",
+  },
+  {
+    time: "2022-08-14 02:34",
+    method: "Linear Deposit",
+    amount: 244.68,
+    token: "USDT",
+    from: "0x04E407C7d7C2A6aA7f2e66B0B8C0dBcafA5E3Af1",
+    to: "0x04E407C7d7C2A6aA7f2e66B0B8C0dBcafA5E3Afe",
+    network: "Erthereum network",
+    id: "0xed3a265cebd603aa2cb9771be5c6ce10ff1e4c44444444444444444444444444",
+  },
+  {
+    time: "2022-08-14 02:34",
+    method: "Approve",
+    amount: 244.68,
+    token: "USDT",
+    from: "0x04E407C7d7C2A6aA7f2e66B0B8C0dBcafA5E3Afe",
+    to: "0x04E407C7d7C2A6aA7f2e66B0B8C0dBcafA5E3Af1",
+    network: "Erthereum network",
+    id: "0xed3a265cebd603aa2cb9be5c6ce10ff1e4c7a555555555555555555555555555",
+  },
+  {
+    time: "2022-08-14 02:34",
+    method: "Approve",
+    amount: 244.68,
+    token: "USDT",
+    from: "0x04E407C7d7C2A6aA7f2e66B0B8C0dBcafA5E3Afe",
+    to: "0x04E407C7d7C2A6aA7f2e66B0B8C0dBcafA5E3Af1",
+    network: "Erthereum network",
+    id: "0xed3a265cebd603aa2cb9771be5c6ce10f4c6666666666666666666666666666",
+  },
+  {
+    time: "2022-08-14 02:34",
+    method: "Approve",
+    amount: 244.68,
+    token: "USDT",
+    from: "0x04E407C7d7C2A6aA7f2e66B0B8C0dBcafA5E3Afe",
+    to: "0x04E407C7d7C2A6aA7f2e66B0B8C0dBcafA5E3Af1",
+    network: "Erthereum network",
+    id: "0xed3a265cebd603aa2cb9771be5c6ce10ff1e4c7777777777777777777777777",
+  },
+  {
+    time: "2022-08-14 02:34",
+    method: "Approve",
+    amount: 244.68,
+    token: "USDT",
+    from: "0x04E407C7d7C2A6aA7f2e66B0B8C0dBcafA5E3Afe",
+    to: "0x04E407C7d7C2A6aA7f2e66B0B8C0dBcafA5E3Af1",
+    network: "Erthereum network",
+    id: "0xed3a265cebd603aa2cb9771be5c6cef1e888888888888888888888888888888",
+  },
+  {
+    time: "2022-08-14 02:34",
+    method: "Approve",
+    amount: 244.68,
+    token: "USDT",
+    from: "0x04E407C7d7C2A6aA7f2e66B0B8C0dBcafA5E3Afe",
+    to: "0x04E407C7d7C2A6aA7f2e66B0B8C0dBcafA5E3Af1",
+    network: "Erthereum network",
+    id: "0xed3a265cebd603aa2cb9771be5c6ce109999999999999999999999999999999",
   },
 ];

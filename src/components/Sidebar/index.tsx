@@ -1,4 +1,4 @@
-import { ListItemHeader, ListCustom } from "./slider.css";
+import { ListItemHeader, ListCustom } from "./sidebar.css";
 // import { Menu, Item, MenuLink } from './slider.css'
 import { listMenu } from "../../configs/data";
 import List from "@mui/material/List";
@@ -22,7 +22,7 @@ const Sidebar: React.FC<Props> = (props: Props) => {
         </ListItemHeader>
         <ListCustom>
           {listMenu.map(e => (
-            <ListItem name={e.name} subMenu={e.subMenu} icon={e.icon} />
+            <ListItem key={e.name} name={e.name} subMenu={e.subMenu} icon={e.icon} />
           ))}
         </ListCustom>
       </List>

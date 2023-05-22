@@ -1,10 +1,11 @@
 import { Page } from "../../styles";
 import { Grid } from "@mui/material";
 import { NetworkContainer } from "../../components/Network";
-import { myListCoin, historyData } from "../../configs/data/test";
+import { myListCoin, rows } from "../../configs/data/test";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
-
+import { sliceAddress } from "../../utils";
+import React, { useState } from "react";
 import {
   NetworkContainerFixed,
   SubHeaderPage,
@@ -30,10 +31,10 @@ import { TitlePage } from "../../styles";
 import { ChooseToken } from "../../assets/icon";
 import SearchComponet from "../../components/TextField";
 import { SearchIcon, ReceiveTransactionHistoty, SendTransactionHistoty, LinkTransaction, Empty } from "../../assets/icon";
-
 import CustomButton from "../../components/Button";
 const Overview = () => {
-  const myAdress = "0x15375...b080f";
+  const myAdress = "0x04E407C7d7C2A6aA7f2e66B0B8C0dBcafA5E3Afe";
+  const [number, setNumber] = useState(6);
   return (
     <Page>
       <Grid container columns={{ xs: 100, sm: 100, md: 100, lg: 100, xl: 100 }}>
@@ -84,7 +85,7 @@ const Overview = () => {
             <ListItemMyAssets>
               {myListCoin ? (
                 myListCoin.map(item => (
-                  <ItemMyAssets>
+                  <ItemMyAssets key={item.symbol}>
                     <ItemMyAssetsLeft>
                       <img style={{ marginRight: "10px" }} width={"30px"} src={item.img}></img>
                       <TextCoin>{item.name}</TextCoin>
@@ -112,9 +113,9 @@ const Overview = () => {
           </OverviewHeaderTopCoin>
           <ContentPageContainer>
             <ListItemMyAssets>
-              {historyData ? (
-                historyData.map(item => (
-                  <ItemMyAssets>
+              {rows ? (
+                rows.slice(0, number).map(item => (
+                  <ItemMyAssets key={item.amount}>
                     <TransactionLinkContainer>
                       <Tooltip title='Link to view full about this transaction' placement='top-start'>
                         <IconButton>
@@ -123,14 +124,14 @@ const Overview = () => {
                       </Tooltip>
                       <div>
                         <FromToAddressContainer>
-                          <span style={{ color: "#42526E" }}> From: </span> <span style={{ color: "#346FBE" }}>{item.from}</span>
+                          <span style={{ color: "#42526E" }}> From: </span> <span style={{ color: "#346FBE" }}>{sliceAddress(item.from)}</span>
                         </FromToAddressContainer>
                         <FromToAddressContainer>
-                          <span style={{ color: "#42526E" }}> To: </span> <span style={{ color: "#346FBE" }}>{item.to}</span>
+                          <span style={{ color: "#42526E" }}> To: </span> <span style={{ color: "#346FBE" }}>{sliceAddress(item.to)}</span>
                         </FromToAddressContainer>
                       </div>
                     </TransactionLinkContainer>
-                    <CustomButton text={item.balance + " ETH"} styleButton='default' iconRight={item.from === myAdress ? SendTransactionHistoty : ReceiveTransactionHistoty}></CustomButton>
+                    <CustomButton text={item.amount + " " + item.token} styleButton='default' iconRight={item.from === myAdress ? SendTransactionHistoty : ReceiveTransactionHistoty}></CustomButton>
                   </ItemMyAssets>
                 ))
               ) : (
@@ -144,7 +145,7 @@ const Overview = () => {
             </ListItemMyAssets>
           </ContentPageContainer>
           <OverviewHeaderTopCoin>
-            <CustomButton width='100%' boder='none' text='View all transactions'></CustomButton>
+            <CustomButton onClick={() => setNumber(rows.length)} width='100%' boder='none' text='View all transactions'></CustomButton>
           </OverviewHeaderTopCoin>
         </Grid>
       </Grid>

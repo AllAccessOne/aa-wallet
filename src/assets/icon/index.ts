@@ -15,10 +15,16 @@ import { ReactComponent as Copy } from "./system/copy.svg";
 import { ReactComponent as Computer } from "./system/Computer.svg";
 import { ReactComponent as Trash } from "./system/trash.svg";
 import { ReactComponent as Dropdown } from "./system/Turn Down.svg";
+import { ReactComponent as DropRight } from "./system/Style=Turn, Icon=turn right.svg";
 import { ReactComponent as DropdownBlack } from "./system/Style=Turn, Icon=turn down.svg";
 import { ReactComponent as TimeDropdown } from "./system/time.svg";
+import { ReactComponent as Eyes } from "./system/Eyes.svg";
+import { ReactComponent as Filter } from "./system/filter-square.svg";
 
 export {
+  Filter,
+  Eyes,
+  DropRight,
   TimeDropdown,
   Trash,
   EmptyWallet,

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useLayoutEffect } from "react";
 import { ThemeProvider } from "styled-components";
 import { lightTheme, darkTheme } from "../../styles/theme";
 import { RoutesProps } from "../../types/route.type";
@@ -24,9 +24,13 @@ const LayoutApp: React.FC<RoutesProps> = (props: React.PropsWithChildren<RoutesP
       setIsDesktop(true);
     }
   };
-  useEffect(() => {
+  useLayoutEffect(() => {
+    handleResize();
     window.addEventListener("resize", handleResize);
-  });
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
   const theme = "light";
   return (
     <ThemeProvider theme={theme === "light" ? lightTheme : darkTheme}>

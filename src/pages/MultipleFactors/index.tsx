@@ -7,6 +7,7 @@ import { TextBlue } from "../Overview/overview.css";
 import CustomTextInput from "../../components/TextField";
 import CustomButton from "../../components/Button";
 import { useState } from "react";
+import React from "react";
 const breakpoint = createBreakpoint(base.breakpoints);
 
 const MultipleFactors = () => {
@@ -30,7 +31,7 @@ const MultipleFactors = () => {
           Login to <strong>allaccess.one</strong> from any of the following devices to complete the security verification.
         </SubHeaderText>
         {Devices.map(device => (
-          <ConatainerDevice>
+          <ConatainerDevice key={device.id}>
             <GroupLeftItemDevice>
               <Computer />
               <ContainerText>

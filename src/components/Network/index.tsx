@@ -9,20 +9,22 @@ import base from "../../styles/theme/base";
 import { createBreakpoint } from "styled-components-breakpoint";
 const breakpoint = createBreakpoint(base.breakpoints);
 import { Dropdown } from "../../assets/icon";
+import { sliceAddress, copyAddress } from "../../utils";
+
 export const NetworkContainer = () => {
   const [network, setNetwork] = React.useState("Ethereum Mainnet");
 
   const handleChange = (event: any) => {
     setNetwork(event.target.value);
   };
-
+  const myAdress = "0x04E407C7d7C2A6aA7f2e66B0B8C0dBcafA5E3Afe";
   return (
     <Container>
-      <ButtonCustom width='40%' height='40px' styleButton='style' padding='8px 12px' gap='10px' fontSize='14px' text='0x15375...b080f' />
+      <ButtonCustom onClick={() => copyAddress(myAdress)} width='40%' height='40px' styleButton='style' padding='8px 12px' gap='10px' fontSize='14px' text={sliceAddress(myAdress)} />
       <FormControlCustom>
         <SelectCustom IconComponent={() => <Dropdown style={{ marginRight: "10px" }} />} value={network} onChange={handleChange}>
           {listNetWorks.map(network => (
-            <MenuItemCustom value={network.description}>
+            <MenuItemCustom key={network.chainID} value={network.description}>
               <p>{network.description}</p>
             </MenuItemCustom>
           ))}
