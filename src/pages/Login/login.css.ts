@@ -52,12 +52,10 @@ export const ContainerSlider = styled.div`
   text-align: ${props => props.theme.position.center};
 `;
 export const TextLogo = styled.div`
-  color: ${props => props.theme.colors.neutrals.gray800};
   align-content: center;
   align-items: center;
-  font-family: "Roboto";
-  font-weight: ${props => props.theme.fontWeights.bold};
-  font-size: ${props => props.theme.fontSizes.lg + "px"};
+  max-height: 200px;
+  max-width: 300px;
   ${breakpoint("xs")`
      display:none;
     `}
@@ -71,7 +69,7 @@ export const LoginH1 = styled.div`
   font-weight: ${props => props.theme.fontWeights.extraBold};
   font-size: ${props => props.theme.fontSizes.xxxxl + "px"};
   color: ${props => props.theme.colors.neutrals.gray1000};
-  margin-top: 20vh;
+  margin-top: 15vh;
   ${breakpoint("xs")`
       margin-left: auto;
       margin-right: auto;

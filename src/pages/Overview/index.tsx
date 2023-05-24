@@ -131,7 +131,13 @@ const Overview = () => {
                         </FromToAddressContainer>
                       </div>
                     </TransactionLinkContainer>
-                    <CustomButton text={item.amount + " " + item.token} styleButton='default' iconRight={item.from === myAdress ? SendTransactionHistoty : ReceiveTransactionHistoty}></CustomButton>
+                    <CustomButton
+                      spaceBetween={true}
+                      width='150px'
+                      text={item.amount + " " + item.token}
+                      styleButton='default'
+                      iconRight={item.from === myAdress ? SendTransactionHistoty : ReceiveTransactionHistoty}
+                    ></CustomButton>
                   </ItemMyAssets>
                 ))
               ) : (

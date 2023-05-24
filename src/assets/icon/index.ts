@@ -20,8 +20,10 @@ import { ReactComponent as DropdownBlack } from "./system/Style=Turn, Icon=turn 
 import { ReactComponent as TimeDropdown } from "./system/time.svg";
 import { ReactComponent as Eyes } from "./system/Eyes.svg";
 import { ReactComponent as Filter } from "./system/filter-square.svg";
+import { ReactComponent as LogoText } from "./system/logo-no-background.svg";
 
 export {
+  LogoText,
   Filter,
   Eyes,
   DropRight,

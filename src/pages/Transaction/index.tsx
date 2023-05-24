@@ -9,26 +9,27 @@ import CustomButton from "../../components/Button";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import CustomInput from "../../components/TextField";
+import LoadingButton from "../../components/LoadingButton";
 import { NetworkContainer } from "../../components/Network";
-import { myListCoin } from "../../configs/data/test";
+import { myListCoin, privateKey } from "../../configs/data/test";
 import { Copy, DropdownBlack } from "../../assets/icon";
 import QRCode from "react-qr-code";
 import { OverviewHeaderTopCoin, TextHeaderOverview } from "../Overview/overview.css";
 import FormGroup from "@mui/material/FormGroup";
-import React from "react";
+import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { sliceAddress, copyAddress } from "../../utils";
 import styled from "styled-components";
-// import Box from "@mui/material/Box";
-// import IconButton from "@mui/material/IconButton";
-// import CloseIcon from "@mui/icons-material/Close";
-// import { ModalCustom, HeaderModalInforTransaction, TitleModal } from "../../components/Table";
-// import { ModalSubtitle, ContainerTextFieldTimeCustom } from "../History"
-interface FormData {
+import Web3 from "web3";
+import { sendTransaction, useBlockchain } from "../../blockchain";
+// import { TransferNative } from "../../blockchain"
+
+export type FormData = {
   token: string;
   addressTo: string;
   amount: string;
-}
+  tokenContract?: string;
+};
 interface TabPanelProps {
   children?: React.ReactNode;
   index: number;
@@ -56,8 +57,11 @@ function a11yProps(index: number) {
 }
 
 const Transaction = () => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { web3, getBalance } = useBlockchain("5");
+
   const myAdress = "0x04E407C7d7C2A6aA7f2e66B0B8C0dBcafA5E3Afe";
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = useState(0);
   // const [open, setOpen] = React.useState(false);
   // const handleOpen = () => setOpen(true);
   // const handleClose = () => setOpen(false);
@@ -72,6 +76,7 @@ const Transaction = () => {
       token: "ETH",
       addressTo: "",
       amount: "",
+      tokenContract: "",
     },
   });
 
@@ -82,8 +87,10 @@ const Transaction = () => {
     }
     return true;
   };
-  const onSubmit = React.useCallback((values: FormData) => {
-    console.log(values);
+  const onSubmit = React.useCallback(async (values: FormData) => {
+    setIsSubmitting(true);
+    await sendTransaction(web3 as Web3, values, privateKey);
+    setIsSubmitting(false);
     reset();
   }, []);
 
@@ -221,7 +228,7 @@ const Transaction = () => {
                       <TextHeaderOverview>$12.34</TextHeaderOverview>
                     </ContainerFlexSpace>
                     <ContainerRight>
-                      <CustomButton type='submit' text='Transfer' styleButton='primary' width='150px' height='50px'></CustomButton>
+                      <LoadingButton variant='contained' loadingPosition='end' loading={isSubmitting} type='submit' text='Transfer' styleButton='primary' width='150px' height='50px'></LoadingButton>
                     </ContainerRight>
                   </FormGroup>
                 </form>

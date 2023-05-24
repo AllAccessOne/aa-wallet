@@ -7,7 +7,7 @@ import { createBreakpoint } from "styled-components-breakpoint";
 import base from "../../styles/theme/base";
 const breakpoint = createBreakpoint(base.breakpoints);
 import ListItem from "./listItem";
-import { LogoIcon } from "../../assets/img";
+import { LogoNew } from "../../assets/img";
 import React from "react";
 type Props = {
   display: boolean;
@@ -17,7 +17,7 @@ const Sidebar: React.FC<Props> = (props: Props) => {
     <SidebarApp {...props}>
       <List>
         <ListItemHeader>
-          <img src={LogoIcon} />
+          <img src={LogoNew} width={50} />
           Allaccess.one
         </ListItemHeader>
         <ListCustom>

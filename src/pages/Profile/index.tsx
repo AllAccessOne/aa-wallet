@@ -78,7 +78,6 @@ const Profile = () => {
                       <CopyAddressContainer onClick={() => copyAddress(myAdress)}>
                         {sliceAddress(myAdress)} <Copy />
                       </CopyAddressContainer>
-                      CustomBox' is assigned a value but never used
                     </ContainerAvatar>
                   </Grid>
                   <Grid item xs={100} md={70}>

@@ -1,10 +1,10 @@
 import Grid from "@mui/material/Grid";
 import { CustomSlider, BackgroundImg, ImgSlider, TextSlider, ContainerSlider, TextLogo, LoginH1, Subtitle, ContainerLoginButton, CustomGrid, OrLineContainer } from "./login.css";
-import { FristSlider, LogoIconXL } from "../../assets/img";
+import { FristSlider, SecondarySlider, ThirdSlider } from "../../assets/img";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Button from "../../components/Button";
-import { Google } from "../../assets/icon";
+import { Google, LogoText } from "../../assets/icon";
 import { useGoogleLogin } from "@react-oauth/google";
 import { useNavigate } from "react-router-dom";
 import React from "react";
@@ -42,8 +42,7 @@ const Login = () => {
       <Grid container direction='row'>
         <Grid item xs={12} sm={12} md={6}>
           <TextLogo>
-            <img src={LogoIconXL} />
-            Allaccess.one
+            <LogoText />
           </TextLogo>
           <LoginH1>Log in or sign up</LoginH1>
           <Subtitle>Select how you would like to continue</Subtitle>
@@ -65,11 +64,11 @@ const Login = () => {
                 <TextSlider>Quick one-click login when logging in with Gmail and you can directly use the wallet immediately!</TextSlider>
               </ContainerSlider>
               <ContainerSlider>
-                <ImgSlider src={FristSlider}></ImgSlider>
+                <ImgSlider src={SecondarySlider}></ImgSlider>
                 <TextSlider>Quick one-click login when logging in with Gmail and you can directly use the wallet immediately!</TextSlider>
               </ContainerSlider>
               <ContainerSlider>
-                <ImgSlider src={FristSlider}></ImgSlider>
+                <ImgSlider src={ThirdSlider}></ImgSlider>
                 <TextSlider>Quick one-click login when logging in with Gmail and you can directly use the wallet immediately!</TextSlider>
               </ContainerSlider>
             </CustomSlider>

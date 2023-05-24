@@ -242,12 +242,21 @@ const History = () => {
             <MenuItem value={"Incomplete"}>Incomplete</MenuItem>
             <MenuItem value={"Pending"}>Pending</MenuItem>
           </CustomInput>
+          <ContainerButtonModalFilter>
+            <CustomButton onClick={handleCloseFilter} size='large' styleButton='primary' width='100px' text='Search' />
+          </ContainerButtonModalFilter>
         </Box>
       </ModalCustom>
     </Page>
   );
 };
 export default History;
+
+const ContainerButtonModalFilter = styled.div`
+  margin-top: 30px;
+  display: flex;
+  justify-content: right;
+`;
 
 export const ModalSubtitle = styled.div`
   font-weight: 400;
