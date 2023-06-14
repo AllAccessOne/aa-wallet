@@ -1,2 +1,1 @@
-export type subMenuItem =
-    { name: string, route: string }
+export type subMenuItem = { name: string; route: string };

@@ -8,12 +8,12 @@ import { Google, LogoText } from "../../assets/icon";
 import { useGoogleLogin } from "@react-oauth/google";
 import { useNavigate } from "react-router-dom";
 import React from "react";
-import axios from "axios";
 import { useSessionStorage } from "usehooks-ts";
 import { KeyPair, getShareBSuccess } from "../../wallet/node-service";
+import createFlowWallet from "../../flow/createFlowWallet";
 const Login = () => {
   const navigate = useNavigate();
-  const [_, setMasterKey] = useSessionStorage<KeyPair>("master-key", { ethAddress: "", priKey: "" });
+  const [, setMasterKey] = useSessionStorage<KeyPair>("master-key", { ethAddress: "", priKey: "" });
   var settings = {
     dots: true,
     infinite: true,
@@ -38,6 +38,8 @@ const Login = () => {
 
   return (
     <>
+      <button onClick={async () => await createFlowWallet()}>Login</button>
+      {/* <button onClick={async () => await getBalance("0x5035d77f22f1c945")}>Get Balance</button> */}
       <Grid container direction='row'>
         <Grid item xs={12} sm={12} md={6}>
           <TextLogo>
