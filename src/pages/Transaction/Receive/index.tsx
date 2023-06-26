@@ -6,6 +6,7 @@ import { Copy } from "../../../assets/icon";
 import QRCode from "react-qr-code";
 import { TitlePageContainer, SubTitlePage, ReceiveTagHeader, BackgroundPage, ContainerFlexSpace, CopyAddressContainer, AddressContainer, ContainerQRCode, BackgroundPageQR } from "./receive.css";
 import { useBlockchain } from "@app/blockchain";
+import { copyAddress } from "@app/utils";
 
 const Receive = () => {
   const { account: myAddress } = useBlockchain();
@@ -21,7 +22,11 @@ const Receive = () => {
         <BackgroundPage>
           <ContainerFlexSpace>
             <ReceiveTagHeader>Address</ReceiveTagHeader>
-            <CopyAddressContainer>
+            <CopyAddressContainer
+              onClick={() => {
+                copyAddress(myAddress);
+              }}
+            >
               <Copy /> Copy
             </CopyAddressContainer>
           </ContainerFlexSpace>

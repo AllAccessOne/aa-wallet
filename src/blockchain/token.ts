@@ -3,6 +3,7 @@ import abi from "../common/ERC20_ABI.json";
 import { AbiItem } from "web3-utils";
 import { Token } from "../types/blockchain.type";
 import { LogoNew } from "../assets/img";
+
 export const getToken = async (web3: Web3, addressToken: string, networkRpc: string) => {
   const symbolToken = await getSymbolToken(web3, addressToken);
   const nameToken = await getNameToken(web3, addressToken);

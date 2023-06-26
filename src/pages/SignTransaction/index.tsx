@@ -1,6 +1,8 @@
 import { useParams } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import { sendTransaction, sendTransactionToken, useBlockchain, getGasPrice, getGasLimit } from "../../blockchain";
+import { listNetWorks } from "../../configs/data";
+
 import { TitlePage } from "../../styles";
 import Web3 from "web3";
 import CustomButton from "../../components/Button";
@@ -80,9 +82,11 @@ const SignTransaction = () => {
     [k: number]: boolean;
   }>({});
 
+
   const handleStep = (step: number) => () => {
     setActiveStep(step);
   };
+
 
   const handleReset = () => {
     setActiveStep(1);
