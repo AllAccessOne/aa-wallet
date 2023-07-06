@@ -86,33 +86,32 @@ const Transfer = () => {
 
     window.addEventListener("message", handlePopupResponse);
   };
-  // const handleComfirmRequest = () => {
-  //   const handlePopupResponse = (event: any) => {
-  //     window.addEventListener("beforeunload", () => {
-  //       event.source.postMessage(
-  //         {
-  //           type: "STATUS",
-  //           data: transactionError
-  //         },
-  //         event.origin
+  const handleComfirmRequest = () => {
+    const handlePopupResponse = (event: any) => {
+      window.addEventListener("beforeunload", () => {
+        event.source.postMessage(
+          {
+            type: "STATUS",
+            data: "0x123123231332132",
+          },
+          event.origin
+        );
+      });
+      window.close();
+    };
+    window.addEventListener("message", handlePopupResponse);
+  };
+  const handleReject = () => {
+    const handleReject = (event: any) => {
+      window.addEventListener("beforeunload", () => {
+        event.source.postMessage({ type: "STATUS", data: null }, event.origin);
+      });
+      setTransactionInfoCookies(null);
+      window.close();
+    };
+    window.addEventListener("message", handleReject);
+  };
 
-  //       );
-  //     });
-  //     window.close();
-  //   };
-  //   window.addEventListener("message", handlePopupResponse);
-  // };
-  // const handleReject = () => {
-  //   const handleReject = (event: any) => {
-  //     window.addEventListener("beforeunload", () => {
-  //       event.source.postMessage({ type: "STATUS", data: null }, event.origin);
-  //     });
-  //     setTransactionInfoCookies(null)
-  //     window.close();
-  //   };
-  //   window.addEventListener("message", handleReject);
-  // };
-  //
   useEffect(() => {
     try {
       handleGetInfo();
@@ -545,10 +544,8 @@ const Transfer = () => {
         subTitle='Application wants to sign'
         loading={false}
         info={transactionInfoCookies}
-        handleClose={() => {
-          window.close();
-        }}
-        handleConfirm={handleSubmitModal}
+        handleClose={handleReject}
+        handleConfirm={handleComfirmRequest}
       />
     </Grid>
   );
