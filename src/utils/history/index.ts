@@ -100,12 +100,12 @@ export const preProcessHistoryResponse = async (currentNetwork: ChainNetwork | u
         const preProcessedItem: PreProcessHistoryResponse = {
           id: idCounter++,
           timeStamp: item.timeStamp,
-          method: "Transfer",
+          method: transactionName(item.input, currentNetwork?.core || "evm"),
           tokenSymbol: currentNetwork?.title || "",
           value: item.value,
           from: item.from,
           to: item.to,
-          blockHash: item.blockHash,
+          blockHash: item.hash,
         };
 
         preProcessHistory.push(preProcessedItem);

@@ -17,7 +17,7 @@ import { TitlePageBlack, TitlePage } from "@app/styles";
 import { InfoMasterKey, ShareInfo } from "@app/wallet/metadata";
 import { Button as CustomButton } from "@app/components";
 
-import { BackgroundPage, TitlePageContainer } from "../profile.css";
+import { BackgroundPage, Title2FAContainer } from "../profile.css";
 import { SubTitlePage } from "../../Transaction/transaction.css";
 import { TextHeaderCard, ContainerDevice, GroupLeftItemDevice, ContainerText, NameText, IpText, TextSummary } from "../../MultipleFactors/multipleFactors.css";
 import { ContainerDeviceModal, ListDevicesContainer, ContainerButtonFactors, ContainerHeaderFactors, style } from "./mfa.css";
@@ -151,7 +151,7 @@ const MFA = () => {
     <>
       <Grid container columns={{ xs: 100, sm: 100, md: 100, lg: 100, xl: 100 }}>
         <Grid item xs={100}>
-          <TitlePageContainer>
+          <Title2FAContainer>
             <TitlePageBlack>
               Two-factor Authentication Setting
               <Switch
@@ -166,7 +166,7 @@ const MFA = () => {
               By enabling this feature, an extra key will be stored on your devices, ensuring added protection. Please note that when logging in on new devices, you will require approval from your
               current device or your backup phrase. For more information on Two-Factor Authentication, click here.
             </SubTitlePage>
-          </TitlePageContainer>
+          </Title2FAContainer>
         </Grid>
         {infoMasterKey?.mfa && (
           <>

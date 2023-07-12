@@ -5,22 +5,15 @@ import { TitlePage } from "@app/styles";
 import { Button as CustomButton } from "@app/components";
 import { SubTitlePage, ContainerDeviceModal, ContainerButtonFactors, FlexContainer, style } from "./css";
 import useBlockchain from "@app/blockchain/wrapper";
-import { isEmpty } from "lodash";
 import { useAppSelector } from "@app/store";
 import { sliceAddress, copyAddress } from "@app/utils";
 import { Arrow } from "@app/assets/icon";
+import { InfoTransactions } from "./InfoTransactions";
 
-export type InfoTransacions = {
-  addressTo: string;
-  amount: string;
-  contractTo?: string;
-  origin: string;
-  symbol?: string;
-};
 type Props = {
   title?: string;
   subTitle?: string;
-  info: InfoTransacions | null;
+  info: InfoTransactions | null;
   loading: boolean;
   handleClose: () => void;
   handleConfirm: () => void;
@@ -39,7 +32,7 @@ const SignTransactionModal: React.FC<Props> = props => {
     fetchGas();
   }, [getAccount()]);
   return (
-    <Modal open={!isEmpty(info)} onClose={handleClose} aria-labelledby='modal-modal-title' aria-describedby='modal-modal-description'>
+    <Modal open={info ? true : false} onClose={handleClose} aria-labelledby='modal-modal-title' aria-describedby='modal-modal-description'>
       <Box sx={style}>
         <TitlePage>{title}</TitlePage>
         <SubTitlePage>

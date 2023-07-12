@@ -15,3 +15,7 @@ export const TitlePageContainer = styled.div`
     display: block;
   `}
 `;
+
+export const Title2FAContainer = styled.div`
+  margin-top: 20px;
+`;

@@ -6,6 +6,8 @@ type Props = {
   text1: string;
   text2: string;
 };
+import { breakpoint } from "../../utils";
+
 const OldAddress = styled.div`
   display: flex;
   flex-direction: row;
@@ -13,7 +15,7 @@ const OldAddress = styled.div`
   justify-content: center;
   padding: 6px 10px;
   gap: 10px;
-  width: 130px;
+  width: 150px;
   position: absolute;
   height: 36px;
   top: 0;
@@ -32,7 +34,7 @@ const NewAddress = styled.div`
   justify-content: center;
   padding: 6px 10px;
   gap: 10px;
-  width: 130px;
+  width: 150px;
   position: absolute;
   height: 36px;
   top: 0;
@@ -47,9 +49,15 @@ const MoveContainer = styled.div`
   position: absolute;
   top: 0;
   margin-top: 86px;
-  left: 45%;
   transform: translate(-50%, -50%);
   z-index: 9;
+  ${breakpoint("xs")`
+       width: 50% !important;
+       left: 26%;
+      `}
+  ${breakpoint("sm")`
+        left: 44%;
+    `}
 `;
 const ContainerDiv = styled.div`
   position: relative;

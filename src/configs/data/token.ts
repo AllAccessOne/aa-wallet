@@ -81,7 +81,7 @@ export const listTokens: Token[] = [
     rpcUrls: "",
     img: FLOWLogo,
     symbol: "FLOW",
-    name: "Flow Testnet",
+    name: "Flow",
     chainID: "flow-testnet",
   },
 ];

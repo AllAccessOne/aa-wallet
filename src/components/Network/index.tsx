@@ -80,12 +80,13 @@ export const NetworkContainer: React.FC<Props> = () => {
             }, 3000);
           })
         }
-        width='40%'
+        width='45%'
         height='40px'
         styleButton='style'
-        padding='8px 12px'
+        padding={isDesktop ? "8px 12px" : "8px 0px"}
         gap='10px'
         fontSize='14px'
+        style={{ overflow: "hidden" }}
         text={sliceAddress(getAccount())}
       />
       <FormControlCustom>

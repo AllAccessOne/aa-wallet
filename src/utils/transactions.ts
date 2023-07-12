@@ -11,6 +11,9 @@ export const transactionName = (hex: string, core: ChainCore) => {
     const shortHex = hex.slice(0, 10);
     const name = hexToName[shortHex];
     if (name) return name;
+    if (shortHex === "0x") {
+      return "Transfer";
+    }
     return shortHex;
   }
   return hex.slice(0, 10);

@@ -50,12 +50,22 @@ const History = () => {
   const [network, setNetwork] = useState(networkState.currentNetwork.data);
   const [status, setStatus] = useState("All");
   const [searchId, setSearchId] = useState("");
-  const [customTimeFrom, setCustomTimeFrom] = useState<Dayjs | null>(dayjs("2022-04-17"));
-  const [customTimeTo, setCustomTimeTo] = useState<Dayjs | null>(dayjs("2022-04-17"));
+  const handleGetCurrentDate = () => {
+    const currentDate = new Date();
+    const d = currentDate.getDate();
+    const m = currentDate.getMonth() + 1;
+    const y = currentDate.getFullYear();
+    return y + "-" + m + "-" + d;
+  };
+  const [currentDay, _] = useState(() => handleGetCurrentDate());
+  const [customTimeFrom, setCustomTimeFrom] = useState<Dayjs | null>(dayjs(currentDay));
+  const [customTimeTo, setCustomTimeTo] = useState<Dayjs | null>(dayjs(currentDay));
   const [open, setOpen] = React.useState(false);
   const [openFilter, setOpenFilter] = React.useState(false);
   const [isDesktop, setIsDesktop] = useState(true);
-  const handleOpen = () => setOpen(true);
+  const handleOpen = () => {
+    setOpen(true);
+  };
   const handleClose = () => setOpen(false);
   const handleOpenFilter = () => setOpenFilter(true);
   const handleCloseFilter = () => setOpenFilter(false);
@@ -103,7 +113,6 @@ const History = () => {
               size='small'
               onChange={e => {
                 setTime(e.target.value);
-                handleNotification("Ohhh, it is upgrading", "warning");
               }}
               SelectProps={{
                 IconComponent: () => <TimeDropdown style={{ marginRight: "10px" }} />,
@@ -126,15 +135,15 @@ const History = () => {
               id='method'
               size='small'
               onChange={e => {
-                handleNotification("Ohhh, it is upgrading", "warning");
                 setMethod(e.target.value);
               }}
             >
               <MenuItem value={"All"}>All</MenuItem>
-              <MenuItem value={"Receive"}>Receive</MenuItem>
-              <MenuItem value={"Execute"}>Execute</MenuItem>
-              <MenuItem value={"LinearDeposit"}>Linear Deposit</MenuItem>
+              <MenuItem value={"Transfer"}>Transfer</MenuItem>
               <MenuItem value={"Approve"}>Approve</MenuItem>
+              <MenuItem value={"TransferFrom"}>TransferFrom</MenuItem>
+              <MenuItem value={"Mint"}>Mint</MenuItem>
+              <MenuItem value={"Burn"}>Burn</MenuItem>
             </CustomInput>
           </ContainerTextFieldMethod>
           <ContainerTextFieldNetwork>
@@ -185,7 +194,15 @@ const History = () => {
         </ContainerFilterButton>
       </TilePageContainer>
       <ContainerDataTable>
-        <TableCustom selectedNetwork={network} />
+        <TableCustom
+          selectedNetwork={network}
+          time={time}
+          method={method}
+          searchId={searchId}
+          status={status}
+          timeFrom={customTimeFrom?.format("YYYY/MM/DD")}
+          timeTo={customTimeTo?.format("YYYY/MM/DD")}
+        />
       </ContainerDataTable>
       <ModalCustom open={open} onClose={handleClose} aria-labelledby='modal-modal-title' aria-describedby='modal-modal-description'>
         <Box sx={style} width={isDesktop ? 500 : 320}>
@@ -279,10 +296,11 @@ const History = () => {
           <label style={{ marginBottom: "5px", marginTop: "5px" }}>Method</label>
           <CustomInput value={method} styleTextField='default' select id='method' size='small' onChange={e => setMethod(e.target.value)}>
             <MenuItem value={"All"}>All</MenuItem>
-            <MenuItem value={"Receive"}>Receive</MenuItem>
-            <MenuItem value={"Execute"}>Execute</MenuItem>
-            <MenuItem value={"LinearDeposit"}>Linear Deposit</MenuItem>
+            <MenuItem value={"Transfer"}>Transfer</MenuItem>
             <MenuItem value={"Approve"}>Approve</MenuItem>
+            <MenuItem value={"TransferFrom"}>TransferFrom</MenuItem>
+            <MenuItem value={"Mint"}>Mint</MenuItem>
+            <MenuItem value={"Burn"}>Burn</MenuItem>
           </CustomInput>
           <label style={{ marginBottom: "5px", marginTop: "5px" }}>Network</label>
           <CustomInput

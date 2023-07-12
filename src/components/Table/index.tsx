@@ -18,6 +18,8 @@ import { TitleModal, ContainerInfoTransactions, HeaderModalInfoTransaction, styl
 import DoneIcon from "@mui/icons-material/Done";
 import { get } from "lodash";
 import { ChainNetwork } from "@app/types/blockchain.type";
+import dayjs from "dayjs";
+import { PreProcessHistoryResponse } from "@app/utils/history";
 const sliceAddressIdTableCell = (str: string) => {
   if (str.length > 35) {
     return str.substr(0, 5) + "..." + str.substr(str.length - 3, str.length);
@@ -27,6 +29,12 @@ const sliceAddressIdTableCell = (str: string) => {
 
 type Props = {
   selectedNetwork: ChainNetwork;
+  searchId: string;
+  time?: string;
+  method: string;
+  status: string;
+  timeFrom?: string | undefined;
+  timeTo?: string | undefined;
 };
 const TableWithPagination: React.FC<Props> = props => {
   const { selectedNetwork } = props;
@@ -90,6 +98,44 @@ const TableWithPagination: React.FC<Props> = props => {
     };
   }, []);
 
+  const handleGetDateFromTimeStamp = (timeStamp: number | string) => {
+    const date = new Date(Number(timeStamp) * 1000);
+    const day = date.getDate();
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear();
+    return year + "/" + month + "/" + day;
+  };
+  const convertToTimestamp = (dateString: string) => {
+    const date = dayjs(dateString, "YYYY-MM-DD");
+    return date.toDate().getTime(); // Returns the timestamp in milliseconds
+  };
+  const handleDay = (values: PreProcessHistoryResponse) => {
+    if (props.time) {
+      const currentDate = new Date();
+      const daysToFilter = Number(props.time);
+      if (Number(values.timeStamp) * 1000 < currentDate.getTime() - daysToFilter * 24 * 60 * 60 * 1000) {
+        return false;
+      }
+    } else {
+      const timeStampFrom = convertToTimestamp(props.timeFrom as string);
+      const timeStampTo = convertToTimestamp(props.timeTo as string);
+      if (Number(values.timeStamp) * 1000 < timeStampFrom || Number(values.timeStamp) * 1000 > timeStampTo) {
+        return false;
+      }
+    }
+    if (props.searchId) {
+      if (values.blockHash !== props.searchId) {
+        return false;
+      }
+    }
+    if (props.method !== "All") {
+      if (values.method !== props.method) {
+        return false;
+      }
+    }
+    return true;
+  };
+
   return (
     <>
       <TableContainer>
@@ -117,102 +163,107 @@ const TableWithPagination: React.FC<Props> = props => {
               </SpinningContainer>
             )}
             {historyState.getHistoriesAddress.data?.length ? (
-              historyState.getHistoriesAddress.data.slice((page - 1) * rowsPerPage, (page - 1) * rowsPerPage + rowsPerPage).map(row => (
-                <TableRow key={row.id}>
-                  <TableCell>{row.timeStamp}</TableCell>
-                  <TableCell>
-                    <CustomMethod>{row.method}</CustomMethod>
-                  </TableCell>
-                  <TableCellCustom>
-                    {formatValue(web3 as Web3, row.value as string)} {row.tokenSymbol ? row.tokenSymbol : "ETH"}
-                  </TableCellCustom>
-                  <TableCellCustom>
-                    <CopyAddressContainer
-                      onClick={() =>
-                        copyAddress(row.from, () => {
-                          setCopied({
-                            ...copied,
-                            [row.from]: true,
-                          });
-                          setTimeout(() => {
+              historyState.getHistoriesAddress.data
+                .filter(values => {
+                  return handleDay(values);
+                })
+                .slice((page - 1) * rowsPerPage, (page - 1) * rowsPerPage + rowsPerPage)
+                .map(row => (
+                  <TableRow key={row.id}>
+                    <TableCell>{handleGetDateFromTimeStamp(row.timeStamp)}</TableCell>
+                    <TableCell>
+                      <CustomMethod>{row.method}</CustomMethod>
+                    </TableCell>
+                    <TableCellCustom>
+                      {formatValue(web3 as Web3, row.value as string)} {row.tokenSymbol ? row.tokenSymbol : "ETH"}
+                    </TableCellCustom>
+                    <TableCellCustom>
+                      <CopyAddressContainer
+                        onClick={() =>
+                          copyAddress(row.from, () => {
                             setCopied({
                               ...copied,
-                              [row.from]: false,
+                              [row.from]: true,
                             });
-                          }, 3000);
-                        })
-                      }
-                    >
-                      {sliceAddress(row.from ? row.from : "")} {get(copied, `${row.from}`) ? <DoneIcon /> : <Copy />}
-                    </CopyAddressContainer>
-                  </TableCellCustom>
-                  <TableCellCustom>
-                    <TableCellCustomInOut text={row.from.toLowerCase() === myAddress.toLowerCase() ? "Out" : "In"}>
-                      {row.from.toLowerCase() === myAddress.toLowerCase() ? "Out" : "In"}
-                    </TableCellCustomInOut>
-                  </TableCellCustom>
-                  <TableCellCustom>
-                    <CopyAddressContainer
-                      onClick={() =>
-                        copyAddress(row.to, () => {
-                          setCopied({
-                            ...copied,
-                            [row.to]: true,
-                          });
-                          setTimeout(() => {
+                            setTimeout(() => {
+                              setCopied({
+                                ...copied,
+                                [row.from]: false,
+                              });
+                            }, 3000);
+                          })
+                        }
+                      >
+                        {sliceAddress(row.from ? row.from : "")} {get(copied, `${row.from}`) ? <DoneIcon /> : <Copy />}
+                      </CopyAddressContainer>
+                    </TableCellCustom>
+                    <TableCellCustom>
+                      <TableCellCustomInOut text={row.from.toLowerCase() === myAddress.toLowerCase() ? "Out" : "In"}>
+                        {row.from.toLowerCase() === myAddress.toLowerCase() ? "Out" : "In"}
+                      </TableCellCustomInOut>
+                    </TableCellCustom>
+                    <TableCellCustom>
+                      <CopyAddressContainer
+                        onClick={() =>
+                          copyAddress(row.to, () => {
                             setCopied({
                               ...copied,
-                              [row.to]: false,
+                              [row.to]: true,
                             });
-                          }, 3000);
-                        })
-                      }
-                    >
-                      {sliceAddress(row.to ? row.to : "")} {get(copied, `${row.to}`) ? <DoneIcon /> : <Copy />}
-                    </CopyAddressContainer>
-                  </TableCellCustom>
-                  <TableCellCustom>Ethereum Network</TableCellCustom>
-                  <TableCell>
-                    <CopyAddressContainer
-                      onClick={() =>
-                        copyAddress(row.blockHash, () => {
-                          setCopied({
-                            ...copied,
-                            [row.blockHash]: true,
-                          });
-                          setTimeout(() => {
+                            setTimeout(() => {
+                              setCopied({
+                                ...copied,
+                                [row.to]: false,
+                              });
+                            }, 3000);
+                          })
+                        }
+                      >
+                        {sliceAddress(row.to ? row.to : "")} {get(copied, `${row.to}`) ? <DoneIcon /> : <Copy />}
+                      </CopyAddressContainer>
+                    </TableCellCustom>
+                    <TableCellCustom>Ethereum Network</TableCellCustom>
+                    <TableCell>
+                      <CopyAddressContainer
+                        onClick={() =>
+                          copyAddress(row.blockHash, () => {
                             setCopied({
                               ...copied,
-                              [row.blockHash]: false,
+                              [row.blockHash]: true,
                             });
-                          }, 3000);
-                        })
-                      }
-                    >
-                      {isDesktop ? sliceAddress(row.blockHash ? row.blockHash : "") : sliceAddressIdTableCell(row.blockHash ? row.blockHash : "")}{" "}
-                      {get(copied, `${row.blockHash}`) ? <DoneIcon /> : <Copy />}
-                    </CopyAddressContainer>
-                  </TableCell>
-                  <TableCell>
-                    <IconButton
-                      onClick={() =>
-                        handleInfo(
-                          row?.timeStamp ? row?.timeStamp : "",
-                          "Approve",
-                          formatValue(web3 as Web3, row.value.toString()),
-                          row.from,
-                          row.to,
-                          "Ethereum Network",
-                          row.blockHash,
-                          row.tokenSymbol ? row.tokenSymbol : "ETH"
-                        )
-                      }
-                    >
-                      <Eyes />
-                    </IconButton>
-                  </TableCell>
-                </TableRow>
-              ))
+                            setTimeout(() => {
+                              setCopied({
+                                ...copied,
+                                [row.blockHash]: false,
+                              });
+                            }, 3000);
+                          })
+                        }
+                      >
+                        {isDesktop ? sliceAddress(row.blockHash ? row.blockHash : "") : sliceAddressIdTableCell(row.blockHash ? row.blockHash : "")}{" "}
+                        {get(copied, `${row.blockHash}`) ? <DoneIcon /> : <Copy />}
+                      </CopyAddressContainer>
+                    </TableCell>
+                    <TableCell>
+                      <IconButton
+                        onClick={() =>
+                          handleInfo(
+                            row?.timeStamp ? row?.timeStamp : "",
+                            "Approve",
+                            formatValue(web3 as Web3, row.value.toString()),
+                            row.from,
+                            row.to,
+                            "Ethereum Network",
+                            row.blockHash,
+                            row.tokenSymbol ? row.tokenSymbol : "ETH"
+                          )
+                        }
+                      >
+                        <Eyes />
+                      </IconButton>
+                    </TableCell>
+                  </TableRow>
+                ))
             ) : (
               <EmptyContainer>
                 <div>
@@ -225,7 +276,13 @@ const TableWithPagination: React.FC<Props> = props => {
         </Table>
       </TableContainer>
       <Pagination
-        count={Math.ceil((historyState.getHistoriesAddress.data?.length ? historyState.getHistoriesAddress.data?.length : 0) / rowsPerPage)}
+        count={Math.ceil(
+          (historyState.getHistoriesAddress.data.filter(values => {
+            return handleDay(values);
+          }).length
+            ? historyState.getHistoriesAddress.data.filter(values => handleDay(values)).length
+            : 0) / rowsPerPage
+        )}
         page={page}
         onChange={handleChangePage}
         shape='rounded'
@@ -237,7 +294,7 @@ const TableWithPagination: React.FC<Props> = props => {
             <HeaderModalGroupLeft>
               <TitleModal>Transfer details</TitleModal>
               <CustomMethod>{row.method}</CustomMethod>
-              <TableCellCustomInOut text={row.from === myAddress ? "Out" : "In"}>{row.from === "myAddress" ? "Out" : "In"}</TableCellCustomInOut>
+              <TableCellCustomInOut text={row.from === myAddress ? "Out" : "In"}>{row.from === myAddress ? "Out" : "In"}</TableCellCustomInOut>
             </HeaderModalGroupLeft>
             <div>
               <IconButton onClick={handleClose}>
@@ -252,7 +309,7 @@ const TableWithPagination: React.FC<Props> = props => {
             </HeaderModalInfoTransaction>
             <HeaderModalInfoTransaction>
               <div>Date</div>
-              <div>{row.time}</div>
+              <div>{handleGetDateFromTimeStamp(row.time)}</div>
             </HeaderModalInfoTransaction>
             <HeaderModalInfoTransaction>
               <div>Method</div>
@@ -319,9 +376,9 @@ const TableWithPagination: React.FC<Props> = props => {
               </CopyAddressContainer>
             </HeaderModalInfoTransaction>
             <HeaderModalInfoTransaction>
-              <div>Fee</div>
+              <div>Amount</div>
               <div>
-                0.12
+                {row.amount + " "}
                 <span>{row.token}</span>
               </div>
             </HeaderModalInfoTransaction>

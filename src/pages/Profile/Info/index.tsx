@@ -5,16 +5,15 @@ import { TextField as CustomInput } from "@app/components";
 import { Copy } from "@app/assets/icon";
 import { sliceAddress, copyAddress } from "@app/utils";
 import { TitlePageBlack } from "@app/styles";
-import { useBlockchain } from "@app/blockchain";
+import useBlockchain from "@app/blockchain/wrapper";
 import { BackgroundPage, TitlePageContainer } from "../profile.css";
 import { SubTitlePage, CopyAddressContainer, ContainerTextField } from "../../Transaction/transaction.css";
 import { ContainerAvatar, ContainerInfo } from "./info.css";
 import { useAppSelector } from "@app/store";
 import DoneIcon from "@mui/icons-material/Done";
 const Info = () => {
-  const { account: myAddress } = useBlockchain();
+  const { getAccount } = useBlockchain();
   const profileState = useAppSelector(state => state.profile);
-  console.log(profileState.profileInfo.data);
   const [status, setStatus] = useState(false);
   return (
     <>
@@ -32,7 +31,7 @@ const Info = () => {
                   <CopyAddressContainer
                     style={{ margin: "20px 0" }}
                     onClick={() =>
-                      copyAddress(myAddress, () => {
+                      copyAddress(getAccount(), () => {
                         setStatus(true);
                         setTimeout(() => {
                           setStatus(false);
@@ -40,7 +39,7 @@ const Info = () => {
                       })
                     }
                   >
-                    {sliceAddress(myAddress)}
+                    {sliceAddress(getAccount())}
                     {status ? <DoneIcon /> : <Copy />}
                   </CopyAddressContainer>
                 </ContainerAvatar>

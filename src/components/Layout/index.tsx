@@ -21,6 +21,7 @@ import { useLocalStorage } from "usehooks-ts";
 // import { getTorusKey } from "@app/storage/storage-service";
 const LayoutApp: React.FC<RoutesProps> = (props: React.PropsWithChildren<RoutesProps>) => {
   const [masterKey, _] = useLocalStorage<KeyPair | null>("master-key", null);
+  const [networkKey, __] = useLocalStorage<KeyPair | null>("network-key", null);
 
   //const [theme, setTheme] = useState("light");
   // const themeToggler = () => {
@@ -38,7 +39,7 @@ const LayoutApp: React.FC<RoutesProps> = (props: React.PropsWithChildren<RoutesP
   //   fetchData(networkState.currentNetwork.data)
   // }, [])
   const location = useLocation();
-  const { updateShareForPublicKey } = useFetchWallet();
+  const { updateShareForPublicKey, getInfoWalletByNetworkKey } = useFetchWallet();
   const { handleNotification } = useCustomSnackBar();
   const checkLayout = routes.find(route => route.path === location.pathname);
   const [isDesktop, setIsDesktop] = useState(false);
@@ -84,8 +85,11 @@ const LayoutApp: React.FC<RoutesProps> = (props: React.PropsWithChildren<RoutesP
 
   const handleConfirmDevice = async () => {
     if (isEmpty(detectDevice)) return;
+    const data = await getInfoWalletByNetworkKey(networkKey as KeyPair);
+    if (data.error) return;
+
     setLoadingDetectDevice(true);
-    const { error } = await updateShareForPublicKey(detectDevice);
+    const { error } = await updateShareForPublicKey(data.info!, detectDevice);
     if (error) {
       setLoadingDetectDevice(false);
       handleNotification(error, "error");

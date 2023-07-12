@@ -19,7 +19,7 @@ import useBlockchain from "@app/blockchain/wrapper";
 import { Token } from "../../../types/blockchain.type";
 import { FormData } from "./type";
 import { SignTransactionModal } from "@app/components";
-import { InfoTransacions } from "@app/components/Modal/SignTransactionModal";
+import { InfoTransactions } from "@app/components/Modal/InfoTransactions";
 import { SignedTransferResponse, TransferNative } from "@app/blockchain/types";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -265,7 +265,7 @@ const Transfer = () => {
   //req sign transaction
   const [signFormData, setSignFormData] = useState<TransferNative | null>();
   const [openLoadingPage, setOpenLoadingPage] = React.useState(false);
-  const [transactionInfoCookies, setTransactionInfoCookies] = useState<InfoTransacions | null>(null);
+  const [transactionInfoCookies, setTransactionInfoCookies] = useState<InfoTransactions | null>(null);
 
   const handleCloseLoadingPage = () => {
     setOpenLoadingPage(false);
@@ -275,19 +275,24 @@ const Transfer = () => {
   };
   const handleGetInfo = async () => {
     const handlePopupResponse = async (event: any) => {
-      const data: InfoTransacions = event.data.data;
-      setTransactionInfoCookies(data);
-      const signData: TransferNative = {
-        recipient: data.addressTo,
-        amount: data.amount,
-      };
-      setSignFormData(signData);
+      const data: InfoTransactions = event.data.data;
+      if (data.addressTo) {
+        setTransactionInfoCookies(data);
+        const signData: TransferNative = {
+          recipient: data.addressTo,
+          amount: data.amount,
+        };
+        setSignFormData(signData);
+      } else {
+        setTransactionInfoCookies(null);
+        setSignFormData(null);
+      }
     };
 
     window.addEventListener("message", handlePopupResponse);
   };
 
-  function handleComfirmRequest(res: SignedTransferResponse) {
+  function handleConfirmRequest(res: SignedTransferResponse) {
     const handlePopupResponse = (event: any) => {
       window.addEventListener("beforeunload", () => {
         event.source.postMessage(
@@ -308,7 +313,7 @@ const Transfer = () => {
     signTransfer(signFormData as TransferNative).then(res => {
       console.log(res);
       handleCloseLoadingPage();
-      handleComfirmRequest(res);
+      handleConfirmRequest(res);
     });
   };
   const handleReject = () => {
@@ -322,12 +327,8 @@ const Transfer = () => {
     window.addEventListener("message", handleReject);
   };
   useEffect(() => {
-    try {
-      handleGetInfo();
-    } catch {
-      console.log("Failed to get transaction");
-    }
-  });
+    handleGetInfo();
+  }, []);
 
   return (
     <Grid style={{ width: "100%" }} container columns={{ xs: 100, sm: 100, md: 100, lg: 100, xl: 100 }}>

@@ -3,13 +3,19 @@ import abi from "../../common/ERC20_ABI.json";
 import { AbiItem } from "web3-utils";
 import { Token } from "../../types/blockchain.type";
 import { LogoNew } from "../../assets/img";
-
+import axios from "axios";
 export const getToken = async (web3: Web3, addressToken: string) => {
   const symbolToken = await getSymbolToken(web3, addressToken);
   const nameToken = await getNameToken(web3, addressToken);
+  const urlToken = "https://api.coingecko.com/api/v3/coins/" + nameToken.toLowerCase().split(" ")[0];
+  const infoToken = await axios.get(urlToken).catch(() => {
+    return null;
+  });
+  const logoToken = infoToken?.data.image.small || LogoNew;
+
   if (symbolToken && nameToken) {
     return {
-      img: LogoNew,
+      img: logoToken,
       symbol: symbolToken,
       name: nameToken,
       tokenContract: addressToken,

@@ -169,7 +169,7 @@ const Overview = () => {
     };
     window.addEventListener("message", handlePopupResponse);
   };
-  const handleComfirmRequest = () => {
+  const handleConfirmRequest = () => {
     const myAddress = getAccount();
     const data = JSON.stringify({
       address: myAddress,
@@ -207,7 +207,7 @@ const Overview = () => {
         handleClose={() => {
           handleReject();
         }}
-        handleConfirm={handleComfirmRequest}
+        handleConfirm={handleConfirmRequest}
       />
       <Grid container columns={{ xs: 100, sm: 100, md: 100, lg: 100, xl: 100 }}>
         <Grid item xs={100} sm={100} md={100} lg={50} xl={60}>

@@ -580,7 +580,7 @@ export const useFetchWallet = () => {
    * @param publicKey device
    * @returns
    */
-  const updateShareForPublicKey = async (shareInfo: ShareInfo): Promise<{ error?: string; success?: boolean }> => {
+  const updateShareForPublicKey = async (infoMasterKey: InfoMasterKey, shareInfo: ShareInfo): Promise<{ error?: string; success?: boolean }> => {
     try {
       if (isEmpty(infoMasterKey)) {
         throw new Error("Please initial master key before");
